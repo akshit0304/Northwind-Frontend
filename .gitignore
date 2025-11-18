@@ -1,0 +1,10 @@
+.env
+manifest_backup.txt
+mta_backup.txt
+tsconfig.json
+Odata
+node_modules/*
+resources
+dist
+odataV2_service.txt
+

@@ -1,0 +1,119 @@
+<mvc:View
+xmlns:core="sap.ui.core"
+xmlns="sap.m"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns:l="sap.ui.layout"
+xmlns:form="sap.ui.layout.form"
+controllerName="bd.businessportal.controller.ShippersOverview"
+>
+<!-- Page start -->
+<Page 
+    id="shipper_overview"  
+    title="Shipper Detail" 
+    busyIndicatorDelay="300"
+    showNavButton="true"
+    navButtonPress=".navButtonPressed"
+    class="sapUiResponsiveMargin--content 
+            sapUiResponsiveContentPadding"
+    >
+    <Panel id="sh_dynamicPageTitle" expandable="false" stickyHeader="false" headerText="Shipper {CompanyName}" width="auto" >
+        <!-- <headerToolbar>
+            <OverflowToolbar design="Transparent">
+                <Title text="Territory Data"/>
+                <ToolbarSpacer />
+                <Button icon="sap-icon://action" iconFirst="true" press=".shareButton"/>
+            </OverflowToolbar>
+        </headerToolbar> -->
+        <content>
+            <!-- dymanic binding from controller -->
+        <VBox visible="true" width="100%" id="sh_product_general_info" class="sapUiMarginBegin sapUiResponsivePadding">
+            
+        <FlexBox  rowGap="1rem" columnGap="2.5rem" fitContainer="true" alignItems="Start" alignContent="Start" wrap="Wrap" class="sapUiSmallMarginBegin">
+            <!-- description card -->
+            <VBox wrap="NoWrap" alignItems="Start" height="100%">
+                <layoutData>
+                    <FlexItemData alignSelf="Center"></FlexItemData>
+                </layoutData>
+                <VBox  gap="1rem">
+                    <Label vAlign="Middle"  text="ID" labelFor="shipperid" displayOnly="true" wrapping="false"/>
+                    <ObjectNumber class="sapMObjectNumberLarge" unit=""  state="Success"  number="{ShipperID}" id="shipperid"/>
+            <!-- description ended -->
+                </VBox>
+            </VBox>    
+            <!-- supplier contact inforamtion -->
+            <VBox wrap="NoWrap" alignItems="Start" height="100%">
+                <VBox  gap="1rem">
+                    <Label vAlign="Middle"  text="Company name" labelFor="shdetail" displayOnly="true" wrapping="false"/>
+                    <Text text="{CompanyName}" id="shdetail"/>
+            <!-- description ended -->
+                </VBox>
+            </VBox> 
+            <!-- product portfolio -->
+            <VBox wrap="NoWrap" alignItems="Start" height="100%">
+                <VBox  gap="1rem">
+                    <Label vAlign="Middle"  text="Contact Detail" labelFor="shphone" displayOnly="true" wrapping="false"/>
+                    <Text text="{Phone}" id="shphone"></Text>
+                </VBox>
+            </VBox>
+        </FlexBox>
+        <!-- <HBox width="2.5rem" wrap="NoWrap" ></HBox> -->
+    </VBox>
+    <!-- table data -->
+     <!-- sod -> shipper order detail (table item bind) -->
+    <Table 
+    id="o_orders_table"
+    headerText="Order List"
+    autoPopinMode="true"
+    busyIndicatorDelay="100"
+    items="{sod>/results}"
+    growing="true"
+    growingThreshold="10"
+    class="sapUiSmallMarginTopBottom"
+    
+>
+<infoToolbar>
+    <OverflowToolbar >
+        <Label text="Orders Manage by Shipper {CompanyName} (one shipper handles multiple orders)" displayOnly="true" wrapping="true"></Label>
+    </OverflowToolbar>
+</infoToolbar>
+<columns>
+    <Column width="6em" hAlign="Right">
+        <Label  text="Order ID" displayOnly="true"/>
+    </Column>
+    <Column width="6em" hAlign="Right">
+        <Label text="Customer ID" displayOnly="true"/>
+    </Column>
+
+    <Column>
+        <Label text="Order Date" displayOnly="true"/>
+    </Column>
+
+    <Column>
+         <Label text="Ship Name" displayOnly="true"/>
+    </Column>
+
+    <Column>
+         <Label text="Ship Place" displayOnly="true"/>
+    </Column>
+</columns>
+<items>
+
+    <ColumnListItem  type="Navigation" press=".detailPress">
+        <cells>
+            <ObjectIdentifier title="{sod>OrderID}"  />
+            <Text text="{sod>CustomerID}"  wrapping="false"/>
+            <Text text="{path:'sod>OrderDate',formatter:'.formatter.parseDate'}" maxLines="3"/>
+            <Text text="{sod>ShipName}" />
+            <Text text="{sod>ShipCity} ({sod>ShipCountry})"/>
+
+            
+        </cells>
+    </ColumnListItem>
+</items>
+</Table>
+        </content>
+    </Panel>
+   
+</Page>
+
+</mvc:View>

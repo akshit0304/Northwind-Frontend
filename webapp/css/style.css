@@ -1,0 +1,20 @@
+/* Enter your custom styles here */
+.myCardBG {
+    background-color: #d0d2d4 !important; /* light blue */
+}
+
+.fontsize-S{
+    font-size: smaller !important;
+    font-style: italic !important;
+    font-optical-sizing: auto;
+    opacity: 0.75;
+}
+
+.noHoverTile:hover {
+  box-shadow: none !important;
+  cursor: default !important;
+}
+
+.gridPadding-remove{
+  padding:0 0 !important
+}

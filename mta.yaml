@@ -1,0 +1,118 @@
+_schema-version: "3.2"
+ID: bd_businessportal
+description: this is simple business activity portal to run day to day business task
+version: 0.0.1
+modules:
+- name: bd-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: html5-destination-service
+    parameters:
+      content-target: true
+
+  - name: html5-repo-host
+    parameters:
+      service-key:
+        name: html5-repo-host-key
+  - name: northwind-auth
+    parameters:
+      service-key:
+        name: northwind-auth-xsuaa-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: html5_repo_host
+          Description: business portal html5 destination service create
+          ServiceInstanceName: html5-repo-host-service(Instance)
+          ServiceKeyName: html5-repo-host-key
+          sap.cloud.service: bd_cloud_service
+          Authentication: OAuth2ClientCredentials
+        - Name: bd_xsuaa
+          Description: uaa related destination
+          Authentication: OAuth2ClientCredentials
+          # ServiceInstanceName: xsuaa-service(Instance)
+          ServiceInstanceName: northwind-auth
+          ServiceKeyName: northwind-auth-xsuaa-key
+          sap.cloud.service: bd_cloud_service
+        existing_destinations_policy: update
+  build-parameters:
+    no-source: true
+- name: bd-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: html5-repo-host
+    parameters:
+      # ignore: ""
+      content-target: true
+  - name: northwind-auth
+  build-parameters:
+    build-result: resources
+    requires:
+    - name: businessPortal
+      artifacts:
+      - businessPortal.zip
+      target-path: resources/
+
+- name: businessPortal
+  type: html5
+  path: .
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: html5-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          # - Authentication: NoAuthentication 
+          #   HTML5.DynamicDestination: true
+          #   HTML5.ForwardAuthToken: true
+          #   HTML5.Timeout: 30000
+          #   WebIDEUsage: odata_gen
+          #   WebIDEEnabled: true
+          #   Name: NW-Backend
+          #   ProxyType: Internet
+          #   Type: HTTP
+          #   URL: https://akshit-btp0304-dev-northwind-srv.cfapps.us10-001.hana.ondemand.com/
+          # - Name: odata
+          #   ServiceInstanceName: northwind-destination
+          #   ServiceKeyName: northwind-destination-key
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-plan: lite
+    service-name: northwind-destination
+
+- name: northwind-auth
+  type: org.cloudfoundry.existing-service
+  parameters:
+  #   # path: ./xs-security.json
+  #   service: xsuaa
+  #   # service-name: xsuaa-service(Instance)
+    service-name: northwind-auth
+  #   service-plan: application
+
+- name: html5-repo-host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-plan: app-host
+    service-name: html5-repo-host-service(Instance)
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true

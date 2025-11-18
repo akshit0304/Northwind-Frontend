@@ -1,0 +1,201 @@
+<mvc:View xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:filterbar="sap.ui.comp.filterbar"
+displayBlock="true"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns="sap.m"
+xmlns:core="sap.ui.core"
+xmlns:uxap="sap.uxap"
+controllerName="bd.businessportal.controller.Products"
+>
+
+<uxap:ObjectPageLayout id="product_page" 
+    enableLazyLoading="true"
+    useIconTabBar="true"
+    showTitleInHeaderContent="true"
+    upperCaseAnchorBar="true"
+    showAnchorBar="false"
+    class="sapUiResponsiveContentPadding"
+    >
+
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle >
+                <uxap:snappedHeading>
+                <Toolbar style="Clear">
+                    <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                    <Title text="Products" wrapping="false" titleStyle="H5" />
+                </Toolbar>
+                </uxap:snappedHeading>
+
+                <uxap:expandedHeading>
+                    <!-- <VBox> -->
+                        <Toolbar  style="Clear">
+                            <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                            <Title text="Products" wrapping="false" titleStyle="H5" />
+                        </Toolbar>
+                        <!-- breadcrumb -->
+                         <!-- <Toolbar  style="Clear">
+                             <Breadcrumbs id="p_breadcrumb">
+                                <links>
+                                </links>
+                            </Breadcrumbs>
+                        </Toolbar> -->
+                    <!-- </VBox> -->
+
+                </uxap:expandedHeading>
+
+                <uxap:snappedContent>
+                    <Text text="" wrapping="true" maxLines="3" />
+                </uxap:snappedContent>
+                    <uxap:expandedContent>
+                        <Text text="" wrapping="true" maxLines="3" />
+                    </uxap:expandedContent>
+
+                    <!-- <uxap:actions>
+                        <Toolbar style="Clear">
+                            <ToolbarSpacer/>
+                                <Button  icon="sap-icon://action" iconFirst="true"  press="{=null}" />
+                        </Toolbar>
+                    </uxap:actions> -->
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <uxap:headerContent>
+            <!-- entet filter bar -->
+             <filterbar:FilterBar id="filterbar_proudct" useToolbar="false" showFilterConfiguration="false" showRestoreButton="false" showGoOnFB="true" showClearOnFB="true" 
+                search=".filterSearch" clear=".filterClear"
+             >
+                    <filterbar:filterGroupItems>
+                        <filterbar:FilterGroupItem  name="f_product_name" label="Product Name" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                                <ComboBox id="ProductID" ariaDescribedBy="filter based on product name" filterSecondaryValues="true" showClearIcon="true"
+                                    items="{path:'/results',suspended:false,sorter:[{path:'ProductName'}]}" change=".selectionChange" >
+                                    <items>
+                                        <core:ListItem key="{ProductID}" text="{ProductName}" additionalText="{ProductID}"/>
+                                    </items>
+                                </ComboBox>
+                                <!-- <SearchField placeholder="search" showSearchButton="true"/> -->
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                        <!-- 2 -->
+                        <filterbar:FilterGroupItem  name="product_filter" label="Supplier Name" groupName="q"  visibleInFilterBar="true" >
+                            <filterbar:control>
+                               <!-- <Input showValueHelp="true" showSuggestion="false" type="Text" showClearIcon="false"/> -->
+                                  <ComboBox id="SupplierID" ariaDescribedBy="filter based on supplier name" filterSecondaryValues="true" 
+                                    items="{path:'supl>/results',suspended:false,sorter:[{path:'CompanyName'}]}" change=".selectionChange" showClearIcon="true">
+                                    <items>
+                                        <core:ListItem key="{supl>SupplierID}" text="{supl>CompanyName}" additionalText="{supl>SupplierID}"/>
+                                    </items>
+                                </ComboBox>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                        <!-- 3 -->
+                        <filterbar:FilterGroupItem  name="f_product_availability" label="Availability" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                                <ComboBox id="Discontinued" ariaDescribedBy="filter based on products are available or not" filterSecondaryValues="false" showClearIcon="true">
+                                    <items>
+                                        <core:ListItem key="0" text="Available" />
+                                        <core:ListItem key="1" text="Un-Aavailable" />
+                                    </items>
+                                </ComboBox>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                         <!-- 3 end -->
+
+                         <!-- 4 -->
+                        <filterbar:FilterGroupItem  name="f_product_price" label="Price" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                                <Input id="f_product_price" showClearIcon="true" editable="true" showValueHelp="true" showSuggestion="false" type="Text" placeholder="" valueHelpRequest=".valueHelpRequest"/>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                         <!-- 4 end -->
+                    </filterbar:filterGroupItems>
+             </filterbar:FilterBar>
+        </uxap:headerContent>
+
+        <!-- block content -->
+         <uxap:sections>
+            <uxap:ObjectPageSection  showTitle="false">
+                <!-- <uxap:customAnchorBarButton>
+                    <Button text="Manager Data"></Button>
+                </uxap:customAnchorBarButton> -->
+                <uxap:ObjectPageSubSection   showTitle="false" >
+                    <uxap:blocks>
+
+                                        <Table 
+                                            class="sapUxAPObjectPageSubSectionAlignContent"
+                                            id="table_product"
+                                            headerText="Products"
+                                            autoPopinMode="false"
+                                            width="auto"
+                                            inset="false"
+                                            enableBusyIndicator="false"
+                                            busyIndicatorDelay="500"
+                                            growing="true"
+                                            growingScrollToLoad="true"
+                                            growingThreshold="15"
+                                            items="{/results}"
+                                            core:require="{Formatter:'bd/businessportal/model/Formatter'}"
+                                        >
+                                        
+                                        <columns>
+                                            <Column visible="false">
+                                                <Text wrapping="false" text="Product ID" textAlign="Right"></Text>
+                                            </Column>
+                                            <Column  demandPopin="false" minScreenWidth="Phone">
+                                                <!-- <layoutData>
+                                                    <layout:BlockLayoutCellData lSize="15%" mSize="18%" sSize="auto"></layout:BlockLayoutCellData>
+                                                </layoutData> -->
+                                                <Text wrapping="false" text="Product"></Text>
+                                            </Column>
+                                            <Column width="18rem" demandPopin="true" minScreenWidth="Desktop">
+                                                
+                                                <Text wrapping="false" text="Description">
+                                                    
+                                                </Text>
+                                            </Column>
+                                            <Column  demandPopin="false" minScreenWidth="Phone">
+                                                <!-- <layoutData>
+                                                    <layout:BlockLayoutCellData lSize="15%" mSize="auto" sSize="auto"></layout:BlockLayoutCellData>
+                                                </layoutData> -->
+                                                <Text wrapping="false" text="Supplier"></Text>
+                                            </Column>
+                                            <!-- <Column demandPopin="true" width="auto" minScreenWidth="Desktop">
+                                                <Text wrapping="true" maxLines="3" text="Quantity Per Unit"></Text>
+                                            </Column> -->
+                                            <Column demandPopin="true" hAlign="Center" minScreenWidth="Desktop" width="auto">
+                                                <Text wrapping="false" text="Stock"></Text>
+                                            </Column>
+                                            <Column demandPopin="false" minScreenWidth="Phone" width="auto">
+                                                <Text wrapping="false" text="Price"></Text>
+                                            </Column>
+                                            <Column demandPopin="true" styleClass="sapUiNoMargin"  importance="Low" minScreenWidth="Tablet" width="5rem" hAlign="Center">
+                                                <Text wrapping="false" text="Availability" tooltip="Availability"/>
+                                            </Column>
+                                            <!-- <Column class="sapUiTinyMargin" minScreenWidth="Phone" width="auto">
+                                                <Text wrapping="false" text=""></Text>
+                                            </Column> -->
+                                        </columns>
+                                        <items>
+
+                                            <ColumnListItem type="Navigation" press=".overViewPage">
+                                                <cells>
+                                                        <ObjectIdentifier title="{ProductId}" visible="false"></ObjectIdentifier>
+                                                        <ObjectIdentifier  text="{ProductName}({Category/CategoryName})"></ObjectIdentifier>
+                                                        <Text text="{Category/Description}" wrapping="true" maxLines="3"></Text>
+                                                        <Text text="{Supplier/CompanyName}({Supplier/City})" wrapping="true" maxLines="3"/>
+                                                        <!-- <ObjectStatus reactiveAreaMode="Overlay" class="sapMObjectStatusLongText" icon="sap-icon://product" text="{QuantityPerUnit}" state="Success"/> -->
+                                                        <ObjectNumber number="{path:'UnitsInStock',type:'sap.ui.model.type.Integer'}" />
+                                                        <ObjectNumber  number="{parts:[{path:'UnitPrice'}],type:'sap.ui.model.type.Currency',formatter:'Formatter.currency'}"/>
+                                                        
+                                                        <ObjectStatus class="sapMObjectStatusLarge" text="" icon="{path:'Discontinued',formatter:'Formatter.pContinued_'}" 
+                                                        state="{path:'Discontinued',formatter:'Formatter.pContinued_state'}"/>
+                                                        <!-- <Button class="sapUiTinyMargin" icon="sap-icon://detail-more" press=".detailMore"></Button> -->
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:ObjectPageSection>
+         </uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>

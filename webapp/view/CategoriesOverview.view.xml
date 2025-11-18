@@ -1,0 +1,111 @@
+<mvc:View controllerName="bd.businessportal.controller.CategoriesOverview"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:form="sap.ui.layout.form"
+    >
+
+
+    <!-- Page start -->
+<Page 
+    id="category_overview"  
+    title="Category Details" 
+    busyIndicatorDelay="100"
+    showNavButton="true"  navButtonPress=".navButtonPressed"
+    class="sapUiResponsiveMargin--content 
+            sapUiResponsiveContentPadding"
+    >
+    <Panel id="category_overview_panel" expandable="false" stickyHeader="false" headerText="Category {CategoryName}" width="auto" >
+        <!-- <headerToolbar>
+            <OverflowToolbar design="Transparent">
+                <Title text="Territory Data"/>
+                <ToolbarSpacer />
+                <Button icon="sap-icon://action" iconFirst="true" press=".shareButton"/>
+            </OverflowToolbar>
+        </headerToolbar> -->
+        <content>
+            <HBox alignItems="Start" alignContent="Start" backgroundDesign="Translucent" wrap="Wrap" class="sapUiTinyMargin">
+                    <Avatar decorative="true" displayShape="Square" displaySize="XL" imageFitType="Contain" backgroundColor="Transparent" src=""/>
+                <form:SimpleForm 
+                    layout="ColumnLayout" id="info_category"
+                            columnsXL="-1"
+                            columnsL="1"
+                            columnsM="1"
+                            labelSpanXL="-1"
+                            labelSpanL="2"
+                            labelSpanM="2"
+                            labelSpanS="12"
+                            emptySpanXL="1"
+                            emptySpanM="0"
+                            adjustLabelSpan="false"
+                >
+                <form:layoutData>
+                    <FlexItemData growFactor="1" shrinkFactor="1" />
+            </form:layoutData>
+                <!-- <form:title>
+                    <core:Title text="" />
+                </form:title> -->
+                    <form:content>
+                        <Label text="Name" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
+                        <Text id="category_overview_description" text="{CategoryName}" class="sapUiTinyMarginBottom"/>
+
+                         <Label text="Description" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
+                        <Text text="{Description}" class="sapUiTinyMarginBottom"/>
+                    </form:content>
+                </form:SimpleForm>
+            </HBox>
+            <Table 
+                id="category_overview_table"
+                autoPopinMode="true"
+                headerText="Products"
+                busyIndicatorDelay="100"
+                items="{Products/results}"
+            >
+                	<infoToolbar>
+					<OverflowToolbar>
+						<Label wrapping="true" displayOnly="true" text="Available Products under the Category {CategoryName}"/>
+					</OverflowToolbar>
+                	</infoToolbar>
+
+                    <columns>
+                        <Column>
+                            <Label displayOnly="true" text="Product ID" textAlign="Right" />
+                        </Column>
+
+                        <Column>
+                            <Label displayOnly="true" text="Product Name" wrapping="true" />
+                        </Column>
+
+                        <Column>
+                            <Label displayOnly="true" text="Stock"  />
+                        </Column>
+
+                        <Column>
+                            <Label displayOnly="true" text="Price"  />
+                        </Column>
+
+                        <Column>
+                            <Label displayOnly="true" text="Availability"  />
+                        </Column>
+                    </columns>
+
+                    <items>
+                        <ColumnListItem type="Navigation" press=".detailPress">
+                                                <cells>
+                                                        <ObjectIdentifier title="{ProductID}"/>
+                                                        <Text  text="{ProductName}" wrapping="false"/>
+                                                        <ObjectNumber number="{path:'UnitsInStock',type:'sap.ui.model.type.Integer'}" />
+                                                        <ObjectNumber  number="{parts:[{path:'UnitPrice'}],type:'sap.ui.model.type.Currency',formatter:'.formatter.currency'}"/>
+                                                        <ObjectStatus text="{=${Discontinued}?'Not Available':'Available'}" icon="{path:'Discontinued',formatter:'.formatter.pContinued_'}" 
+                                                        />
+                                                        <!-- <Button class="sapUiTinyMargin" icon="sap-icon://detail-more" press=".detailMore"></Button> -->
+                                                </cells>
+                                            </ColumnListItem>
+                    </items>
+        </Table>
+        </content>
+    </Panel>
+   
+</Page>
+</mvc:View>

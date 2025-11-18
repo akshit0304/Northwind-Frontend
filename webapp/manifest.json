@@ -1,0 +1,152 @@
+{
+  "_version": "1.65.0",
+  "sap.app": {
+    "id": "bd.businessportal",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.18.4",
+      "toolsId": "5eb9cfbb-f89e-4c66-b991-ea41493f0ecb"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/odata/v4/masterdata/",
+        "type": "OData",
+        "settings": {
+          "annotations": [],
+          "localUri": "localService/mainService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.138.1",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "bd.businessportal.i18n.i18n"
+        }
+      },
+      "nav":{
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "utils/route_navigation.json",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+       "":{
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "Odata/Default.json",
+        "settings": {
+          "defaultBindingMode": "TwoWay"
+        }
+      },
+      "MD": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true,
+          "groupId":"$direct"
+        }
+      },
+      "Mkpi":{
+        "type": "sap.ui.model.json.JSONModel",
+        "uri": "utils/Mkpi.json",
+        "settings": {
+          "defaultBindingMode": "OneWay"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "controlAggregation": "pages",
+        "controlId": "navContainer",
+        "transition": "slide",
+        "type": "View",
+        "viewType": "XML",
+        "path": "bd.businessportal.view",
+        "async": true
+      },
+      "routes": [
+        {
+          "name": "RouteView1",
+          "pattern": "",
+          "target": [
+            "TargetView1"
+          ]
+        },
+        {
+          "name": "o_manager",
+          "pattern": "operationManager",
+          "target": [
+            "T_o_manager"
+          ]
+        }
+      ],
+      "targets": {
+
+        "TargetView1": {
+          "id": "App--Dashboard",
+          "name": "Categories"
+        },
+        "T_o_manager": {
+          "id": "shellPage",
+          "name": "ShellPage",
+          "level": 1
+        }
+      }
+    },
+    "rootView": {
+      "viewName": "bd.businessportal.view.App",
+      "type": "XML",
+      "id": "App",
+      "async": true
+    }
+  }
+}

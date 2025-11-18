@@ -1,0 +1,32 @@
+<mvc:View controllerName="bd.businessportal.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <Page id="role_page" title="{i18n>title}"
+    class="sapUiContentPadding sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer"
+    >
+    <content>
+        <Panel id="role_panel" backgroundDesign="Solid" expandable="false" headerText="Business Operations">
+            <!-- managers -->
+            <GenericTile 
+                class="sapUiTinyMargin"
+                frameType="OneByOne"
+                header="{nav>/oper-manager}"
+                state="Loaded"
+                press=".tilePressed"
+                id="o_manager"
+                >
+                <tileContent>
+                    <TileContent footer="" unit="" frameType="OneByOne" >
+                        <VBox justifyContent="Center" height="100%"> 
+                            <ImageContent src="sap-icon://manager" />
+                            <Text text="KPIs for Operation Manager" wrapping="true" wrappingType="Hyphenated" />
+                        </VBox>                    
+                    </TileContent>
+                </tileContent>
+            </GenericTile>
+
+    </Panel>
+    </content>
+    </Page>
+</mvc:View>

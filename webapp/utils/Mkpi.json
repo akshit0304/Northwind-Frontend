@@ -1,0 +1,132 @@
+{
+    "ProductStat": [
+        {
+            "id": "TotalOrders",
+            "Title": "Total Orders",
+            "Description": "total served orders",
+            "Data": 1000,
+            "Unit": null
+        },
+        {
+            "id": "TotalRevenue",
+            "Title": "Total Revenue",
+            "Description": "orders' sub-total sum",
+            "Data": "325000",
+            "Unit": "€"
+        },
+        {
+            "id": "FullfilledOrders",
+            "Title": "Fulfillment",
+            "Description": "successfully completed and delivered orders",
+            "Data": 95,
+            "Unit": "%"
+        },
+        {
+            "id": "TotalCustomers",
+            "Title": "Total Clientele",
+            "Description": "companies using our products",
+            "Data": 25,
+            "Unit": "clients"
+        }
+    ],
+    "CompanyStat": [
+        {
+            "id": "TotalProducts",
+            "Title": "Total Catalog",
+            "Description": "products under the company",
+            "Data": 32,
+            "Unit": "items"
+        },
+        {
+            "id": "TotalEmployees",
+            "Title": "Total Employees ",
+            "Description": "",
+            "Data": 15,
+            "Unit": null
+        },
+        {
+            "id": "TotalSuppliers",
+            "Title": "Total Suppliers",
+            "Description": "",
+            "Data": 35,
+            "Unit": null
+        },
+        {
+            "id": "TotalShippers",
+            "Title": "Total Shippers",
+            "Description": "",
+            "Data": 3,
+            "Unit": null
+        },
+        {
+            "id": "Territories",
+            "Title": "Territories",
+            "Description": "business spread in world",
+            "Data": 10,
+            "Unit": null
+        }
+    ],
+    "TopCustomers": [
+        {
+            "Name": "Alfreds Futterkiste",
+            "Id": "ALFKI",
+            "subTotal": "10000",
+            "unit": "€"
+        },
+        {
+            "Name": "Ana Trujillo",
+            "Id": "ANATR",
+            "subTotal": "8000",
+            "unit": "€"
+        },
+        {
+            "Name": "Antonio Moreno",
+            "Id": "ANTON",
+            "subTotal": "5000",
+            "unit": "€"
+        },
+        {
+            "Name": "Around the Horn",
+            "Id": "AROUT",
+            "subTotal": "2500",
+            "unit": "€"
+        },
+        {
+            "Name": "Blondesddsl père et",
+            "Id": "BLONP",
+            "subTotal": "2000",
+            "unit": "€"
+        }
+    ],
+    "ShipperKPI": [
+            {
+                "ShipperID": 1,
+                "CompanyName": "Speedy Express",
+                "Phone": "(503) 555-9831",
+                "SettledOrders":500,
+                "color":"#f1c232"
+            },
+            {
+                "ShipperID": 2,
+                "CompanyName": "United Package",
+                "Phone": "(503) 555-3199",
+                "SettledOrders":450,
+                "color":"#FCDAB0"
+            },
+            {
+                "ShipperID": 3,
+                "CompanyName": "Federal Shipping",
+                "Phone": "(503) 555-9931",
+                "SettledOrders":300,
+                "color":"#9CC677"
+            }
+    ],
+    "Colors":[
+        {"color":"#8873A2"},
+        {"color":"#D16A7C"},
+        {"color":"#F9AD79"},
+        {"color":"#EACF5E"},
+        {"color":"#EACF5E"},
+        {"color":"#f1c232"}
+    ]
+}

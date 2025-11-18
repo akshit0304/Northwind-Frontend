@@ -1,0 +1,285 @@
+<mvc:View xmlns:table="sap.ui.table"
+xmlns:core="sap.ui.core"
+xmlns="sap.m"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns:l="sap.ui.layout"
+xmlns:form="sap.ui.layout.form"
+xmlns:uxap="sap.uxap"
+controllerName="bd.businessportal.controller.OrdersOverview"
+>
+<!-- Page start -->
+  <uxap:ObjectPageLayout id="order_overview" upperCaseAnchorBar="true" headerContentPinnable="true" showAnchorBar="true" showTitleInHeaderContent="true" busy="false" busyIndicatorDelay="300" class="sapUiResponsivePadding--header
+            sapUiResponsiveContentPadding">
+
+        <uxap:headerTitle >
+            <!-- dymanic binding from controller -->
+            <uxap:ObjectPageDynamicHeaderTitle id="order_dynamicPageTitle" busy="false" busyIndicatorDelay="300">
+                <uxap:snappedHeading>
+                    <Toolbar  style="Clear">
+                        <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <Title class="sapUiNoMarginBegin"  text="Order #{OrderID}" wrapping="false" titleStyle="H5" />
+                    </Toolbar>
+                </uxap:snappedHeading>
+
+                <uxap:expandedHeading>
+                    <HBox width="100%" gap="5px">
+                    <Toolbar  style="Clear">
+                        <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <Title class="sapUiNoMarginBegin"  text="Order #{OrderID}" wrapping="false" titleStyle="H5" />
+                    </Toolbar>
+                    </HBox>
+                </uxap:expandedHeading>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+        <uxap:headerContent>
+            <!-- header content -->
+               <VBox visible="true" width="100%" id="o_overview_info" class="sapUiSmallMarginBottom">
+
+                <FlexBox rowGap="1.2rem" columnGap="1rem" fitContainer="false" alignItems="Start" alignContent="Start" wrap="Wrap">
+                        <VBox gap="0.8rem">
+                            <layoutData>
+                                <FlexItemData  baseSize="200px"></FlexItemData>
+                            </layoutData>
+                            <Label vAlign="Middle" showColon="true" text="OrderID" displayOnly="true" wrapping="false"/>
+                            <ObjectNumber number="{OrderID}" unit="" state="Information" class="sapMObjectNumberLarge sapUiSmallMarginTop" />
+                            <!-- description ended -->
+                        </VBox>
+                    <!-- </VBox> -->
+                    <VBox alignItems="Start" gap="0.8rem">
+                        <layoutData>
+                                <FlexItemData baseSize="200px" ></FlexItemData>
+                            </layoutData>
+                         <ObjectIdentifier title="Date's" class="sapUiTinyMarginBottom sapUiHideOnPhone" />
+                         <ObjectIdentifier title="Date's" class="sapUiVisibleOnlyOnPhone" />
+                        <!-- <layoutData>
+                            <FlexItemData alignSelf="Center" baseSize="auto" maxWidth="35%"></FlexItemData>
+                        </layoutData> -->
+                        <HBox alignItems="Start" columnGap="10px">
+                                <Label vAlign="Middle" showColon="true" text="Order"  displayOnly="true" wrapping="false"></Label>
+                                <Text text="{path:'OrderDate',formatter:'.formatter.parseDate'}" />
+                        </HBox>
+                        <HBox columnGap="10px">
+                            <Label vAlign="Middle" showColon="true" text="Shipped"  displayOnly="true" wrapping="false"></Label>
+                            <Text text="{path:'ShippedDate',formatter:'.formatter.parseDate'}" />
+                        </HBox>
+                        
+                    </VBox>
+                    
+                    <!-- customer and employee -->
+                       <VBox alignItems="Start" gap="0.8rem">
+                             <layoutData>
+                                <FlexItemData baseSize="200px" />
+                        </layoutData>
+                         <ObjectIdentifier title="Associate's" class="sapUiTinyMarginBottom sapUiHideOnPhone"/>
+                         <ObjectIdentifier title="Associate's" class="sapUiVisibleOnlyOnPhone"/>
+                        
+                        <HBox alignItems="Start" columnGap="10px">
+                                <Label vAlign="Middle" showColon="true" text="Customer Name"  displayOnly="true" wrapping="false"></Label>
+                                <Text text="{Customer/CompanyName}" wrapping="false" maxLines="3" />
+                        </HBox>
+                        <HBox columnGap="10px">
+                                <Label vAlign="Middle" showColon="true" text="Employee Name"  displayOnly="true" wrapping="false"></Label>
+                                 <Text  text="{Employee/TitleOfCourtesy} {Employee/FirstName}" wrapping="false" maxLines="3"  />
+                        </HBox>
+                    </VBox>
+                </FlexBox>
+                <!-- <HBox width="2.5rem" wrap="NoWrap"></HBox> -->
+            </VBox>
+
+
+           
+        </uxap:headerContent>
+        <!-- main content -->
+
+        <!-- sections -->
+         <uxap:sections>
+            <uxap:ObjectPageSection showTitle="false" >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection title="Order Info" showTitle="false">
+                        <uxap:blocks>
+                                        <form:SimpleForm 
+                    layout="ColumnLayout" id="info_order"
+                        columnsXL="-1"
+                        columnsL="2"
+                        columnsM="2"
+                        labelSpanXL="-1"
+                        labelSpanL="3"
+                        labelSpanM="2"
+                        labelSpanS="12"
+                        emptySpanXL="0"
+                        adjustLabelSpan="false"
+                        width="auto"
+                >
+               
+                <!-- <form:title>
+                    <core:Title text="" />
+                </form:title> -->
+                    <form:content>
+                        <Label text="ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{OrderID}" class="sapUiTinyMarginBottom"/>
+                        <Label text="Customer ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{CustomerID}" class="sapUiTinyMarginBottom"/>
+                        <Label text="Employee ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{EmployeeID}" class="sapUiTinyMarginBottom"/>
+
+                    </form:content>
+
+                    <!-- column 2 -->
+                     <form:content>
+                        <Label text="Order Date" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{path:'OrderDate',formatter:'.formatter.parseDate'}" class="sapUiTinyMarginBottom"/>
+                        <Label text="Last Date" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{path:'RequiredDate',formatter:'.formatter.parseDate'}" class="sapUiTinyMarginBottom"/>
+                        <Label text="Shipped Date" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{path:'ShippedDate',formatter:'.formatter.parseDate'}" class="sapUiTinyMarginBottom"/>
+
+                    </form:content>
+                </form:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- section-2 -->
+               <uxap:ObjectPageSection showTitle="false" >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection title="Customer Info" showTitle="false">
+                        <uxap:blocks>
+                                  <form:SimpleForm 
+                        layout="ColumnLayout" id="o_customer"
+                        columnsXL="-1"
+                        columnsL="2"
+                        columnsM="2"
+                        labelSpanXL="-1"
+                        labelSpanL="3"
+                        labelSpanM="2"
+                        labelSpanS="12"
+                        emptySpanXL="0"
+                        adjustLabelSpan="false"
+                            width="auto"
+                >
+
+                 <form:title>
+                    <core:Title text="Customer Info" />
+                </form:title>
+                <form:content>
+                        <Label text="Company" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Customer/CompanyName}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Contact Person" showColon="true" vAlign="Middle"  displayOnly="true" wrapping="true" />
+                        <Text  text="{Customer/ContactName}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Phone" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Customer/Phone}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Location" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Customer/City} ({Customer/Country})" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Customer/CustomerID}" class="sapUiTinyMarginBottom"/>
+                </form:content>
+            </form:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+            <!-- section-3 -->
+               <uxap:ObjectPageSection showTitle="false" >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection title="Shipment Info" showTitle="false">
+                        <uxap:blocks>
+                                 <form:SimpleForm 
+                    layout="ColumnLayout" id="shipments"
+                        columnsXL="-1"
+                        columnsL="2"
+                        columnsM="2"
+                        labelSpanXL="-1"
+                        labelSpanL="3"
+                        labelSpanM="2"
+                        labelSpanS="12"
+                        emptySpanXL="0"
+                        adjustLabelSpan="false"
+                            width="auto"
+                >
+               
+                <form:title>
+                    <core:Title text="Shipment Info" />
+                </form:title>
+                    <form:content>
+                       
+                        <Label text="Shipper Name" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{ShipName}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Item Freight" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Freight}" class="sapUiTinyMarginBottom"/>
+
+                         <Label text="Shipper ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{ShipVia}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Address" showColon="true" vAlign="Middle"  displayOnly="true" tooltip="Delievery Address" />
+                        <Text  text="{ShipAddress}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="City" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{ShipCity}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Country" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{ShipCountry}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Region" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{ShipRegion}" class="sapUiTinyMarginBottom" emptyIndicatorMode="On"/>
+
+                        <Label text="Postal Code" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{ShipPostalCode}" class="sapUiTinyMarginBottom"/>
+                    </form:content>
+                </form:SimpleForm> 
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- section-4 -->
+               <uxap:ObjectPageSection showTitle="false" >
+                <uxap:subSections>
+                    <uxap:ObjectPageSubSection title="Order Specialist" showTitle="false">
+                        <uxap:blocks>
+                              <form:SimpleForm 
+                    layout="ColumnLayout" id="o_employee"
+                        columnsXL="-1"
+                        columnsL="2"
+                        columnsM="2"
+                        labelSpanXL="-1"
+                        labelSpanL="3"
+                        labelSpanM="2"
+                        labelSpanS="12"
+                        emptySpanXL="0"
+                        adjustLabelSpan="false"
+                            width="auto"
+                >
+                <form:layoutData>
+                    <FlexItemData growFactor="1" shrinkFactor="1" />
+                </form:layoutData>
+                 <form:title>
+                    <core:Title tooltip="order managed by this employee" text="Order Processing Specialist" />
+                </form:title>
+                <form:content>
+                        <Label text="Name" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Employee/TitleOfCourtesy} {Employee/FirstName}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Role" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Employee/Title}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Employee/EmployeeID}" class="sapUiTinyMarginBottom"/>
+
+
+                        <!-- <Text  text="{Employee/EmployeeID}" class="sapUiTinyMarginBottom"/> -->
+                </form:content>
+                </form:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+         </uxap:sections>
+  </uxap:ObjectPageLayout>
+ <!-- object page end -->
+</mvc:View>

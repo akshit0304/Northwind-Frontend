@@ -1,0 +1,31 @@
+{
+  "welcomeFile": "/index.html",
+  "authenticationMethod": "route",
+  "routes": [
+     {
+      "source": "^/akshit-btp0304/(.*)$",
+      "target": "odata/v4/masterdata/$1",
+      "destination": "api-northwind-destination",
+      "authenticationType": "xsuaa"
+    },
+    {
+      "source": "^/resources/(.*)$",
+      "target": "/resources/$1",
+      "destination": "ui5",
+      "authenticationType": "none"
+    },
+    {
+      "source": "^/test-resources/(.*)$",
+      "target": "/test-resources/$1",
+      "authenticationType": "none",
+      "destination": "ui5"
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+    
+  ]
+}

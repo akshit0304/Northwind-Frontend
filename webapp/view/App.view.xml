@@ -1,0 +1,70 @@
+<mvc:View controllerName="bd.businessportal.controller.App" displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:tnt="sap.tnt">
+    <!-- ===================== -->
+
+    <App id="app" autoFocus="false">
+        <tnt:ToolPage id="shell_page" sideExpanded="true">
+
+            <tnt:header>
+                <Toolbar style="Clear" class="sapUiContentPadding">
+                    <!-- <Button icon="sap-icon://nav-back" press=".navbuttonPressed" type="Transparent"/> -->
+                    <Button id="hamburgerMenu" class="sapUiTinyMarginBeginEnd"  icon="sap-icon://menu2" badgeStyle="Default" type="Transparent" press=".hamburgerMenu"/>
+                    <!-- <Image src="../css/Images/logo.jpeg" alt="logo" lazyLoading="false" backgroundSize="contains" width="100px"/> -->
+                    <Title class="sapUiTinyMarginBeginEnd sapUiHideOnPhone" text="{i18n>title}" />
+                </Toolbar>
+            </tnt:header>
+            <!-- <tnt:subHeader>
+                <Toolbar class="sapUiResponsiveContentPadding">
+                    <Button id="hamburgerMenu" class="sapUiTinyMarginBeginEnd"  icon="sap-icon://menu2" badgeStyle="Default" type="Transparent" press=".hamburgerMenu"/>
+                    <Button id="backButton" class="sapUiTinyMarginBeginEnd"  icon="sap-icon://nav-back" badgeStyle="Default" type="Transparent" press=".backButton"/>
+                </Toolbar>
+            </tnt:subHeader> -->
+            <tnt:sideContent>
+                <tnt:SideNavigation id="sideNavigation" ariaLabel="side panel for navigating to different pages"  selectedKey="Dashboard" itemSelect=".onItemSelect">
+                    <tnt:NavigationList id="list">
+                        <tnt:NavigationListItem key="Dashboard" text="Dashboard" icon="sap-icon://home" id="dashboard"/>
+                        <tnt:NavigationListItem key="Categories" text="Categories" icon="sap-icon://product" />
+                        <tnt:NavigationListItem key="Products" text="Products" icon="sap-icon://add-product" />
+                        <tnt:NavigationListItem key="Orders" text="Orders" icon="sap-icon://clinical-task-tracker" />
+                        <tnt:NavigationListItem key="Suppliers" text="Suppliers" icon="sap-icon://supplier" />
+                        <tnt:NavigationListItem key="Shippers" text="Shippers" icon="sap-icon://shipping-status" />
+
+                        <!-- <tnt:NavigationListItem key="Officials" text="Officials" icon="sap-icon://manager" /> -->
+                        <tnt:NavigationListItem key="Employees" text="Employees" icon="sap-icon://manager" />
+                        <tnt:NavigationListItem key="Customers" text="Customers" icon="sap-icon://customer" />
+                        <tnt:NavigationListItem key="Regions" text="Regions &amp; Territories" icon="sap-icon://world" />
+                        <!-- <tnt:NavigationListItem key="Territories" text="Territories" icon="sap-icon://world" /> -->
+                    </tnt:NavigationList>
+                    <tnt:fixedItem>
+                        <tnt:NavigationList>
+                            <tnt:NavigationListItem  key="ImportantLinks" ariaHasPopup="Dialog" id="quickCreate" press=".quickActionPress" text="Important Links" icon="sap-icon://chain-link" design="Default" selectable="false" />
+                            <tnt:NavigationListItem key='Legal' ariaHasPopup="Dialog" selectable="false" text="Legal" icon="sap-icon://compare" press=".dialogPress"/>
+                        </tnt:NavigationList>
+                    </tnt:fixedItem>
+                </tnt:SideNavigation>
+                <!-- add content -->
+                <!-- <Panel backgroundDesign="Solid" headerText="overview temp" width="auto" class="sapUiTinyMargin">
+            <content>
+               <Text text="dhfsf"></Text>
+            </content>
+         </Panel> -->
+
+
+            </tnt:sideContent>
+
+            <!-- main content -->
+            <tnt:mainContents>
+                <NavContainer id="navContainer" initialPage="Dashboard" autoFocus="false"  class="sapUiResponsiveContentPadding" busyIndicatorDelay="500"
+                 >
+                    <pages>
+                        <!-- <mvc:XMLView id="dashboard_page" viewName="bd.businessportal.view.Dashboard" /> -->
+                    </pages>
+                </NavContainer>
+            </tnt:mainContents>
+
+        </tnt:ToolPage>
+    </App>
+</mvc:View>

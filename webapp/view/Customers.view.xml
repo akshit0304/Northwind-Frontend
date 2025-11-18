@@ -1,0 +1,147 @@
+<mvc:View xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:filterbar="sap.ui.comp.filterbar"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    controllerName="bd.businessportal.controller.Customers"
+    >
+    <uxap:ObjectPageLayout id="customer_page" class="sapUiSmallMarginBottom sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer"
+    enableLazyLoading="true"
+    useIconTabBar="true"
+    showTitleInHeaderContent="true"
+    upperCaseAnchorBar="true"
+    showAnchorBar="false"
+    >
+
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle >
+                <uxap:snappedHeading>
+                      <Toolbar  style="Clear">
+                        <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <Title  tooltip="Customers" class="sapUiNoMarginBegin" text="Customers" wrapping="false" level="H5" />
+                    </Toolbar>
+                </uxap:snappedHeading>
+                <uxap:expandedHeading>
+                    <Toolbar  style="Clear">
+                        <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <Title  tooltip="Customers" class="sapUiNoMarginBegin" text="Customers" wrapping="false" level="H5" />
+                    </Toolbar>
+                </uxap:expandedHeading>
+
+                <uxap:snappedContent>
+                    <Text text="" wrapping="true" maxLines="3" />
+                </uxap:snappedContent>
+                    <uxap:expandedContent>
+                        <Text text="" wrapping="true" maxLines="3" />
+                    </uxap:expandedContent>
+
+                    <!-- <uxap:actions>
+                        <Toolbar style="Clear">
+                            <ToolbarSpacer/>
+                                <Button  icon="sap-icon://action" iconFirst="true"  press="{=null}" />
+                        </Toolbar>
+                    </uxap:actions> -->
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <uxap:headerContent>
+            <!-- filter bar -->
+             <filterbar:FilterBar id="filterbar_cust" useToolbar="false" showRestoreButton="false" showGoOnFB="true" showClearOnFB="true" search=".filterSearch" clear=".filterClear" showFilterConfiguration="false" >
+                    <filterbar:filterGroupItems>
+                        <filterbar:FilterGroupItem  name="Customer_search" label="" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                                    <SearchField id="c_search_field" suggest=".searchSuggest"  maxLength="100"  placeholder="search" showSearchButton="true" enableSuggestions="true" search=".searchPressed">   
+                                        <SuggestionItem text="ALFKI" />
+                                        <SuggestionItem text="Maria Anders" />
+                                    </SearchField>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                        <!-- 2 -->
+                        <filterbar:FilterGroupItem  name="customer_role" label="Country" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                                <ComboBox id="Country" ariaDescribedBy="filter based on country" filterSecondaryValues="false" showClearIcon="true"
+                                    items="{path:'country>/results/country',suspended:false,sorter:[{path:''}]}" change=".selectionChange">
+                                    <items>
+                                        <core:ListItem  text="{country>}"/>
+                                    </items>
+                                </ComboBox>                            
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+
+                          <!-- 3 -->
+                        <filterbar:FilterGroupItem  name="customer_city" label="City" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                                <ComboBox id="City" ariaDescribedBy="filter based on city" filterSecondaryValues="false" showClearIcon="true"
+                                    items="{path:'country>/results/city',suspended:false,sorter:[{path:''}]}" change=".selectionChange">
+                                    <items>
+                                        <core:ListItem  text="{country>}"/>
+                                    </items>
+                                </ComboBox>                            
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                    </filterbar:filterGroupItems>
+             </filterbar:FilterBar>
+        </uxap:headerContent>
+
+        <!-- block content -->
+         <uxap:sections>
+            <uxap:ObjectPageSection  showTitle="false">
+                <!-- <uxap:customAnchorBarButton>
+                    <Button text="Manager Data"></Button>
+                </uxap:customAnchorBarButton> -->
+                <uxap:ObjectPageSubSection class="sapUiNoMargin"  showTitle="false" >
+                    <uxap:blocks>
+                                    
+                                        <Table 
+                                            id="table_customer"
+                                            headerText="Customer Data"
+                                            autoPopinMode="false"
+                                            width="100%"
+                                            inset="false"
+                                            busy="false"
+                                            busyIndicatorDelay="0"
+                                            items="{/results}"
+                                            core:require="{Formatter:'bd/businessportal/model/Formatter'}"
+                                        >
+                                        
+                                        <columns>
+                                            <Column visible="true"  minScreenWidth="Phone">
+                                                
+                                                <Text wrapping="true" text="Customer Id" maxLines="3" tooltip="Customer Id"/>
+                                            </Column>
+
+                                            <Column  demandPopin="false" minScreenWidth="Phone">
+                                                <Text wrapping="true" text="Name"></Text>
+                                            </Column>
+                                            <Column  demandPopin="true" minScreenWidth="Phone">
+                                                <Text wrapping="false" text="City"/>
+                                            </Column>
+                                            <Column   demandPopin="true" minScreenWidth="Tablet" >
+                                                <Text wrapping="true" text="Phone No."></Text>
+                                            </Column>
+                                            <Column demandPopin="true"  minScreenWidth="Tablet">
+                                                <Text wrapping="true" text="Postal Code"/>
+                                            </Column>
+                                           
+                                        </columns>
+                                        <items>
+
+                                            <ColumnListItem type="Navigation" press=".overViewPage">
+                                                <cells>
+                                                    <Text text="{CustomerID}"   wrapping="false"/>
+                                                    <Text text="{ContactName}" maxLines="3"/>
+                                                    <Text text="{City}({Country})" maxLines="3"/>
+                                                    <Text text="{Phone}" wrapping="false" />
+                                                    <Text text="{PostalCode}" wrapping="false" />
+                                                    <!-- <ObjectNumber number="{:=%{path:'Orders/results'}.length}"  emptyIndicatorMode="On" /> -->
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:ObjectPageSection>
+         </uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>

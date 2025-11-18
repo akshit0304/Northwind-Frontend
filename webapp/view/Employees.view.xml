@@ -1,0 +1,127 @@
+<mvc:View xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:filterbar="sap.ui.comp.filterbar"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    controllerName="bd.businessportal.controller.Employees"
+    >
+    <uxap:ObjectPageLayout id="employee_page" class="sapUiSmallMarginBottom sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer"
+    enableLazyLoading="true"
+    useIconTabBar="true"
+    showTitleInHeaderContent="true"
+    upperCaseAnchorBar="true"
+    showAnchorBar="false"
+    >
+
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle >
+                <uxap:snappedHeading>
+                     <Toolbar  style="Clear">
+                        <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <Title  tooltip="Employees" class="sapUiNoMarginBegin" text="Employees" wrapping="false" level="H5" />
+                    </Toolbar>
+                </uxap:snappedHeading>
+                <uxap:expandedHeading>
+                   <Toolbar  style="Clear">
+                        <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <Title  tooltip="Employees" class="sapUiNoMarginBegin" text="Employees" wrapping="false" level="H5" />
+                    </Toolbar>
+                </uxap:expandedHeading>
+
+                <uxap:snappedContent>
+                    <Text text="" wrapping="true" maxLines="3" />
+                </uxap:snappedContent>
+                    <uxap:expandedContent>
+                        <Text text="" wrapping="true" maxLines="3" />
+                    </uxap:expandedContent>
+
+                    <!-- <uxap:actions>
+                        <Toolbar style="Clear">
+                            <ToolbarSpacer/>
+                                <Button  icon="sap-icon://action" iconFirst="true"  press="{=null}" />
+                        </Toolbar>
+                    </uxap:actions> -->
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <uxap:headerContent>
+            <!-- entet filter bar -->
+             <filterbar:FilterBar id="filterbar_emp" useToolbar="false" showRestoreButton="false" showGoOnFB="false" showFilterConfiguration="false">
+                    <filterbar:filterGroupItems>
+                        <filterbar:FilterGroupItem  name="Employee_search" label="" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                                <SearchField id="emp_search_field" suggest=".searchSuggest"  maxLength="100"  placeholder="search employee" showSearchButton="true" enableSuggestions="true" search=".searchPressed">
+                                    <SuggestionItem text="nancy"/>
+                                    </SearchField>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                    </filterbar:filterGroupItems>
+             </filterbar:FilterBar>
+        </uxap:headerContent>
+
+        <!-- block content -->
+         <uxap:sections>
+            <uxap:ObjectPageSection  showTitle="false">
+                <!-- <uxap:customAnchorBarButton>
+                    <Button text="Manager Data"></Button>
+                </uxap:customAnchorBarButton> -->
+                <uxap:ObjectPageSubSection class="sapUiNoMargin"  showTitle="false" >
+                    <uxap:blocks>
+                                    
+                                        <Table 
+                                            id="table_employee"
+                                            headerText="Employee Data"
+                                            autoPopinMode="false"
+                                            width="100%"
+                                            inset="false"
+                                            busy="false"
+                                            busyIndicatorDelay="0"
+                                            items="{/results}"
+                                            core:require="{Formatter:'bd/businessportal/model/Formatter'}"
+                                        >
+                                        
+                                        <columns>
+                                            <Column visible="true"  minScreenWidth="Phone" width="6rem" hAlign="Right">
+                                                
+                                                <Text wrapping="true" text="Employee Id" maxLines="3" tooltip="Employee Id"/>
+                                            </Column>
+                                            <Column  demandPopin="false" minScreenWidth="Phone">
+                                                <!-- <layoutData>
+                                                    <layout:BlockLayoutCellData lSize="25%" mSize="18%" sSize="auto" />
+                                                </layoutData> -->
+                                                <Text wrapping="false" text="Name"></Text>
+                                            </Column>
+                                            <Column  demandPopin="true" minScreenWidth="Phone">
+                                                <layoutData>
+                                                    <layout:BlockLayoutCellData lSize="25%" mSize="18%" sSize="auto" />
+                                                </layoutData>
+                                                <Text wrapping="false" text="Title"/>
+                                            </Column>
+                                            <Column   demandPopin="true" minScreenWidth="Tablet" >
+                                                <Text wrapping="true" text="Phone (Personal)"></Text>
+                                            </Column>
+                                            <Column demandPopin="true" width="auto" minScreenWidth="Tablet">
+                                                <Text wrapping="true" text="Hired Date"></Text>
+                                            </Column>
+                                           
+                                        </columns>
+                                        <items>
+
+                                            <ColumnListItem type="Navigation" press=".overViewPage">
+                                                <cells>
+                                                    <Text text="{EmployeeID}"  />
+                                                    <Text text="{TitleOfCourtesy} {FirstName} {LastName}" maxLines="3"/>
+                                                    <ObjectStatus text="{Title}" state="Success" />
+                                                    <Text text="{HomePhone}" wrapping="false" />
+                                                    <Text text="{path:'HireDate',type:'sap.ui.model.type.String',formatter:'Formatter.parseDate'}" maxLines="3"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:ObjectPageSection>
+         </uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>

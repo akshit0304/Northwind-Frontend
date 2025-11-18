@@ -1,0 +1,151 @@
+<mvc:View xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:filterbar="sap.ui.comp.filterbar" controllerName="bd.businessportal.controller.Suppliers"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    >
+    <uxap:ObjectPageLayout id="supplier_page" class="sapUiSmallMarginBottom sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer"
+    enableLazyLoading="true"
+    beforeNavigate=".navbuttonPressed"
+    useIconTabBar="true"
+    showTitleInHeaderContent="true"
+    upperCaseAnchorBar="true"
+    showAnchorBar="false"
+    >
+
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle >
+                <uxap:snappedHeading>
+                   <Toolbar  style="Clear">
+                        <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <Title class="sapUiNoMarginBegin"  text="Suppliers" wrapping="false" titleStyle="H5" />
+                    </Toolbar>
+                </uxap:snappedHeading>
+                <uxap:expandedHeading>
+                    <Toolbar  style="Clear">
+                        <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <Title class="sapUiNoMarginBegin"  text="Suppliers" wrapping="false" titleStyle="H5" />
+                    </Toolbar>
+                </uxap:expandedHeading>
+
+                <uxap:snappedContent>
+                    <Text text="" wrapping="true" maxLines="3" />
+                </uxap:snappedContent>
+                    <uxap:expandedContent>
+                        <Text text="" wrapping="true" maxLines="3" />
+                    </uxap:expandedContent>
+
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <uxap:headerContent>
+            <!-- entet filter bar -->
+             <filterbar:FilterBar id="filterbar_supplier" useToolbar="false" showRestoreButton="false" showGoOnFB="true" showFilterConfiguration="false" showClearOnFB="true" clear=".filterClear" search=".filterSearch" >
+                    <filterbar:filterGroupItems>
+                        <filterbar:FilterGroupItem  name="search" label="" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                                <SearchField id="supl_search_field" suggest=".searchSuggest"  maxLength="100"  placeholder="search" showSearchButton="true" enableSuggestions="true" search=".searchPressed">
+                                    <SuggestionItem text="Charlotte Cooper"/>
+                                    </SearchField>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                         <!-- ++ -->
+                          <filterbar:FilterGroupItem  name="supplier" label="Supplier Name" groupName="q"  visibleInFilterBar="true" >
+                            <filterbar:control>
+                                  <ComboBox id="s_SupplierID" ariaDescribedBy="filter based on supplier name" filterSecondaryValues="true" 
+                                    items="{path:'/results',suspended:false,sorter:[{path:'CompanyName'}]}" change=".selectionChange" showClearIcon="true">
+                                    <items>
+                                        <core:ListItem key="{SupplierID}" text="{CompanyName}" additionalText="{SupplierID}"/>
+                                    </items>
+                                </ComboBox>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                        <!-- ++ -->
+                        <!-- 3 -->
+                        <filterbar:FilterGroupItem  name="supplier_country" label="Country" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                               <ComboBox id="s_Country"  filterSecondaryValues="true" showClearIcon="true"
+                                    items="{path:'country>/results/country',suspended:false,sorter:[{path:''}]}" change=".selectionChange" >
+                                    <items>
+                                        <core:ListItem text="{country>}" />
+                                    </items>
+                                </ComboBox>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                        <!-- 3 -->
+                        <filterbar:FilterGroupItem  name="supplier_city" label="City" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                               <ComboBox id="s_City"  filterSecondaryValues="true" showClearIcon="true"
+                                    items="{path:'country>/results/city',suspended:false,sorter:[{path:''}]}" change=".selectionChange" >
+                                    <items>
+                                        <core:ListItem text="{country>}" />
+                                    </items>
+                                </ComboBox>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                       
+                    </filterbar:filterGroupItems>
+             </filterbar:FilterBar>
+        </uxap:headerContent>
+
+        <!-- block content -->
+         <uxap:sections>
+            <uxap:ObjectPageSection  showTitle="false">
+                <!-- <uxap:customAnchorBarButton>
+                    <Button text="Manager Data"></Button>
+                </uxap:customAnchorBarButton> -->
+                <uxap:ObjectPageSubSection class="sapUiNoMargin"  showTitle="false" >
+                    <uxap:blocks>
+
+                                        <Table 
+                                            id="table_supplier"
+                                            headerText="Suppliers"
+                                            autoPopinMode="false"
+                                            width="100%"
+                                            inset="false"
+                                            busy="false"
+                                            busyIndicatorDelay="100"
+                                            items="{/results}"
+                                        >
+                                        <columns>
+                                            <Column visible="true"  minScreenWidth="Phone"  >
+                                                <Text wrapping="true" text="Company Name" maxLines="3" />
+                                            </Column>
+
+                                            <Column  demandPopin="false" minScreenWidth="Phone">
+                                                <Text wrapping="false" text="Contact Name"></Text>
+                                            </Column>
+
+                                            <Column  demandPopin="true" minScreenWidth="Tablet" width="auto" >
+                                                <Text wrapping="true" text="City"/>
+                                            </Column>
+
+                                            <Column   demandPopin="true" minScreenWidth="Phone" width="auto">
+                                                <Text wrapping="true" text="Region"/>
+                                            </Column>
+
+                                            <Column   demandPopin="true" minScreenWidth="Tablet" width="auto">
+                                                <Text wrapping="true" text="Phone"/>
+                                            </Column>
+                                        </columns>
+                                        <items>
+
+                                            <ColumnListItem type="Navigation" vAlign="Middle" press=".overViewPage">
+                                                <cells>
+                                                  
+                                                    <Text text="{CompanyName}" maxLines="3"/>
+                                                    <Text text="{ContactName}" maxLines="3"/>
+                                                    <Text text="{City}" maxLines="3"/>
+                                                    <Text emptyIndicatorMode="On" text="{path:'Region'}" maxLines="3"/>
+                                                    <Text text="{Phone}" wrapping="false"/>
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:ObjectPageSection>
+         </uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>

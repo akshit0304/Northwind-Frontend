@@ -1,0 +1,73 @@
+<mvc:View xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:filterbar="sap.ui.comp.filterbar" controllerName="bd.businessportal.controller.Regions"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:grid="sap.ui.layout.cssgrid"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    >
+
+     <Page
+        id="region_page"
+        title="Regions"
+        busyIndicatorDelay="100"
+        showNavButton="true"
+        navButtonPress=".navButtonPressed"
+        class="sapUiResponsiveMargin--content"
+    >
+
+    <Panel expandable="false" width="auto" height="100%">
+        <IconTabBar id="region_tabBar" headerMode="Standard" selectedKey="{:=${null}}" expanded="false" select=".regionExpand"> 
+            <items>
+                <!-- set fragments -->
+                <!-- <IconTabFilter text="{RegionDescription}" icon="sap-icon://world" iconColor="Default" tooltip="total territories" key="{RegionID}" count="{=${Territories/results}.length}"/> -->
+
+                <!-- <IconTabSeparator icon="sap-icon://world" /> -->
+            </items>
+        </IconTabBar>
+
+
+      
+
+
+    </Panel>
+    
+
+                                        <!-- <Table 
+                                            id="table_region2"
+                                            headerText="Regions"
+                                            autoPopinMode="false"
+                                            width="100%"
+                                            inset="false"
+                                            busy="false"
+                                            busyIndicatorDelay="100"
+                                            items="{/results}"
+                                        >
+                                        
+                                        <columns>
+                                            <Column visible="true"  minScreenWidth="Phone" width="10%" hAlign="Right" >
+                                                <Text wrapping="true" text="ID" maxLines="3" tooltip="region Id"/>
+                                            </Column>
+
+                                            <Column  demandPopin="false" minScreenWidth="Phone" width="30%">
+                                                <Text wrapping="false" text="Name"></Text>
+                                            </Column>
+
+                                            <Column  demandPopin="true" minScreenWidth="Phone" width="15%" hAlign="Center">
+                                                <Text wrapping="true" text="No of Terretories"/>
+                                            </Column>
+                                        </columns>
+                                        <items>
+
+                                            <ColumnListItem type="Navigation" vAlign="Middle" press=".overViewPage">
+                                                <cells>
+                                                    <ObjectNumber number="{RegionID}" unit="" state="None" />
+                                                    <Text text="{RegionDescription}" maxLines="3"/>
+                                                    <ObjectNumber number="{=${Territories/results}.length}" unit="" state="None" />
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table> -->
+
+    </Page>
+</mvc:View>

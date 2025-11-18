@@ -1,0 +1,152 @@
+<mvc:View xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:filterbar="sap.ui.comp.filterbar" controllerName="bd.businessportal.controller.Orders"
+    displayBlock="true"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:uxap="sap.uxap"
+    >
+    <uxap:ObjectPageLayout id="order_page" class="sapUiSmallMarginBottom sapUiResponsivePadding--header sapUiResponsivePadding--subHeader sapUiResponsivePadding--content sapUiResponsivePadding--footer"
+    enableLazyLoading="true"
+    beforeNavigate=".navbuttonPressed"
+    useIconTabBar="true"
+    showTitleInHeaderContent="true"
+    upperCaseAnchorBar="true"
+    showAnchorBar="false"
+    >
+
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle >
+                <uxap:snappedHeading>
+                  <Toolbar  style="Clear">
+                        <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <Title class="sapUiNoMarginBegin"  text="Orders" wrapping="false" titleStyle="H5" />
+                    </Toolbar>
+                </uxap:snappedHeading>
+                <uxap:expandedHeading>
+                    <Toolbar  style="Clear">
+                        <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <Title class="sapUiNoMarginBegin"  text="Orders" wrapping="false" titleStyle="H5" />
+                    </Toolbar>              
+                      </uxap:expandedHeading>
+
+                <uxap:snappedContent>
+                    <Text text="" wrapping="true" maxLines="3" />
+                </uxap:snappedContent>
+                    <uxap:expandedContent>
+                        <Text text="" wrapping="true" maxLines="3" />
+                    </uxap:expandedContent>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <uxap:headerContent>
+            <!-- entet filter bar -->
+             <filterbar:FilterBar id="filterbar_order" useToolbar="false" showRestoreButton="false" showGoOnFB="true" showFilterConfiguration="false" showClearOnFB="true" clear=".filterClear" search=".filterSearch" >
+                    <filterbar:filterGroupItems>
+                        <filterbar:FilterGroupItem  name="search" label="" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                              <SearchField id="o_search_field" suggest=".searchSuggest"  maxLength="100"  placeholder="search orderID" showSearchButton="true" enableSuggestions="true" search=".searchPressed">
+                                <SuggestionItem text="10251"></SuggestionItem>
+                                <SuggestionItem text="Paul Henriot"/>
+                                </SearchField>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                         <!-- 2 -->
+                        <filterbar:FilterGroupItem  name="o_employee" label="Handled By" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                                 <ComboBox filterSecondaryValues="true" showClearIcon="true"
+                                    items="{path:'emp>/results',suspended:false,sorter:[{path:'EmployeeID'}]}" change=".selectionChange" >
+                                    <items>
+                                        <core:ListItem key="{emp>EmployeeID}" text="{emp>FirstName}" additionalText="{emp>EmployeeID}"/>
+                                    </items>
+                                </ComboBox>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+                        <!-- 3 -->
+                        <filterbar:FilterGroupItem  name="o_customer" label="Customer" groupName="q"  visibleInFilterBar="true">
+                            <filterbar:control>
+                                 <ComboBox filterSecondaryValues="true" showClearIcon="true"
+                                    items="{path:'cust>/results',suspended:false,sorter:[{path:'CustomerID'}]}" change=".selectionChange" >
+                                    <items>
+                                        <core:ListItem key="{cust>CustomerID}" text="{cust>CompanyName}" additionalText="{cust>CustomerID}"/>
+                                    </items>
+                                </ComboBox>
+                            </filterbar:control>
+                        </filterbar:FilterGroupItem>
+
+                    </filterbar:filterGroupItems>
+             </filterbar:FilterBar>
+        </uxap:headerContent>
+
+        <!-- block content -->
+         <uxap:sections>
+            <uxap:ObjectPageSection  showTitle="false">
+                <!-- <uxap:customAnchorBarButton>
+                    <Button text="Manager Data"></Button>
+                </uxap:customAnchorBarButton> -->
+                <uxap:ObjectPageSubSection  showTitle="false" >
+                    <uxap:blocks>
+
+                                        <Table 
+                                            id="table_order"
+                                            headerText="Orders"
+                                            autoPopinMode="false"
+                                            width="100%"
+                                            inset="false"
+                                            busy="false"
+                                            busyIndicatorDelay="100"
+                                            items="{/results}"
+                                            sticky="ColumnHeaders"
+                                            rememberSelections="true"
+                                            growing="true"
+                                        >
+                                        <columns>
+                                            <Column  demandPopin="false" minScreenWidth="Phone">
+                                                <Text wrapping="false" text="Order ID"/>
+                                            </Column>
+
+                                            <Column   demandPopin="true" minScreenWidth="Tablet" width="auto" hAlign="Center">
+                                                <Text wrapping="true" text="Order Date"/>
+                                            </Column>
+
+
+                                             <Column   demandPopin="true" minScreenWidth="Tablet" width="auto" hAlign="Center">
+                                                <Text wrapping="true" text="Shipped Date"/>
+                                            </Column>
+
+
+                                            <Column  demandPopin="false" minScreenWidth="Phone">
+                                                <Text wrapping="true" text="Customer"   tooltip="representative person from the company" />
+                                            </Column>
+
+                                            <Column  demandPopin="true" minScreenWidth="Phone" width="auto" >
+                                                <Text wrapping="false" tooltip="Handled By" text="Handled By"/>
+                                            </Column>
+
+                                            <Column   demandPopin="true" minScreenWidth="Desktop" width="auto"  >
+                                                <Text wrapping="true" text="ShipperName" tooltip="company name to which order send (customer)"/>
+                                            </Column>
+                                        </columns>
+                                        <items>
+
+                                            <ColumnListItem type="Navigation" vAlign="Middle" press=".overViewPage">
+                                                <cells>
+                                                    <ObjectIdentifier title="{OrderID}"></ObjectIdentifier>
+                                                    <Text text="{path:'OrderDate',formatter:'.formatter.parseDate'}" maxLines="3"/>
+                                                    <Text text="{path:'ShippedDate',formatter:'.formatter.parseDate'}" maxLines="3"/>
+                                                    <Text text="{Customer/ContactName}" maxLines="3"/>
+                                                    <Text text="{Employee/FirstName}" maxLines="3"/>
+                                                    <Text text="{path:'ShipName'}" maxLines="3"/>
+                                                   
+                                                    <!-- <ObjectNumber  number="{Phone}" unit="" state="Information" inverted="true"/> -->
+
+                                                    
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+                                    </Table>
+                    </uxap:blocks>
+                </uxap:ObjectPageSubSection>
+            </uxap:ObjectPageSection>
+         </uxap:sections>
+    </uxap:ObjectPageLayout>
+</mvc:View>

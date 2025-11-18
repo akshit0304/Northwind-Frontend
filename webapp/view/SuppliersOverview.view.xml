@@ -1,0 +1,135 @@
+<mvc:View
+xmlns:core="sap.ui.core"
+xmlns="sap.m"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns:l="sap.ui.layout"
+xmlns:form="sap.ui.layout.form"
+controllerName="bd.businessportal.controller.SuppliersOverview"
+>
+<!-- Page start -->
+<Page 
+    id="supplier_overview"  
+    title="Supplier Details" 
+    busyIndicatorDelay="100"
+    showNavButton="true"
+    navButtonPress=".navButtonPressed"
+    class="sapUiResponsiveMargin--content 
+            sapUiResponsiveContentPadding"
+    >
+    <Panel id="supplier_overview_panel" expandable="false" stickyHeader="false" headerText="{CompanyName}" width="auto">
+        <content>
+            <!-- dymanic binding from controller -->
+             <form:SimpleForm 
+                    layout="ColumnLayout" id="o_info_supplier"
+                            columnsXL="-1"
+                            columnsL="3"
+                            columnsM="2"
+                            labelSpanXL="-1"
+                            labelSpanL="2"
+                            labelSpanM="3"
+                            labelSpanS="12"
+                            emptySpanXL="1"
+                            adjustLabelSpan="true"
+                >
+               
+                <!-- <form:title>
+                    <core:Title text="" />
+                </form:title> -->
+                    <form:content>
+                        <Label text="Company Name" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{CompanyName}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Contact Name" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{ContactName}" class="sapUiTinyMarginBottom"/>
+                        <Label text="Contact Title" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{ContactTitle}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Phone" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Phone}" class="sapUiTinyMarginBottom"/>
+
+                         <Label text="Supplier ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{SupplierID}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Website" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{HomePage}" class="sapUiTinyMarginBottom" emptyIndicatorMode="On"/>
+
+                        <Label text="Fax" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Fax}" class="sapUiTinyMarginBottom" emptyIndicatorMode="On"/>
+
+                    </form:content>
+<!-- supplier address -->
+                    <form:content>
+                        <Label text="Address" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{CompanyName}" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="City" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{City}" class="sapUiTinyMarginBottom"/>
+                        <Label text="Region" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Region}" emptyIndicatorMode="On" class="sapUiTinyMarginBottom"/>
+
+                        <Label text="Country" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{Country}" class="sapUiTinyMarginBottom"/>
+
+                         <Label text="Postal Code" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{PostalCode}" class="sapUiTinyMarginBottom"/>
+                    </form:content>
+
+                </form:SimpleForm>
+    <!-- products detail table -->
+     <Table 
+        id="o_products_detail_table"
+        busyIndicatorDelay="100"
+        autoPopinMode="true"
+        growing="true"
+        growingScrollToLoad="true"
+        headerText="Products"
+        items="{pd>/results}"
+        class="sapUiSmallMarginTopBottom"
+     >
+     <infoToolbar>
+					<OverflowToolbar>
+						<Label wrapping="true" displayOnly="true" text="Products Managed by Supplier {CompanyName}"/>
+					</OverflowToolbar>
+                	</infoToolbar>
+
+                    <columns>
+                                            <Column>
+                                                <Label  text="Product ID" textAlign="Right"/>
+                                            </Column>
+                                            <Column>
+                                                <Label wrapping="false" text="Product"/>
+                                            </Column>
+                                            <Column>
+                                                <Label wrapping="false" text="Description" />
+                                            </Column>
+
+                                            <Column>
+                                                <Label wrapping="false" text="Price" />
+                                            </Column>
+
+                                            <Column>
+                                                <Label tooltip="Availability" wrapping="false" text="Availability" />
+                                            </Column>
+                                        </columns>
+                                        <items>
+
+                                            <ColumnListItem type="Navigation" press=".detailPress">
+                                                <cells>
+                                                        <Text text="{pd>ProductID}"/>
+                                                        <Text  text="{pd>ProductName}" wrapping="false"/>
+                                                        <Text text="{pd>Category/Description}" wrapping="true" maxLines="3"></Text>
+                                            <ObjectNumber  number="{parts:[{path:'pd>UnitPrice'}],type:'sap.ui.model.type.Currency',formatter:'.formatter.currency'}"/>
+                                            <ObjectStatus  text="" icon="{path:'pd>Discontinued',formatter:'.formatter.pContinued_'}" 
+                                                        state="{path:'pd>Discontinued',formatter:'.formatter.pContinued_state'}"/>
+
+                                                </cells>
+                                            </ColumnListItem>
+                                        </items>
+
+    
+    </Table>
+        </content>
+    </Panel>
+   
+</Page>
+</mvc:View>

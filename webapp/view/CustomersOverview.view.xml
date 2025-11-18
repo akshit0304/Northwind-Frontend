@@ -1,0 +1,259 @@
+<mvc:View
+    xmlns:core="sap.ui.core"
+    xmlns:m="sap.m"
+    xmlns="sap.uxap"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:l="sap.ui.layout"
+    xmlns:form="sap.ui.layout.form"
+    controllerName="bd.businessportal.controller.CustomersOverview"
+>
+    <!-- Page start -->
+    <ObjectPageLayout
+        id="customer_overview"
+        upperCaseAnchorBar="true"
+        headerContentPinnable="true"
+        showAnchorBar="true"
+        showTitleInHeaderContent="true"
+        busy="false"
+        busyIndicatorDelay="300"
+        class="sapUiResponsivePadding--header
+            sapUiResponsiveContentPadding"
+    >
+
+        <headerTitle>
+            <!-- dymanic binding from controller -->
+            <ObjectPageDynamicHeaderTitle id="c_dynamicPageTitle"
+                busy="false"
+                busyIndicatorDelay="300"
+            >
+                <snappedHeading>
+                      <m:Toolbar  style="Clear">
+                        <m:Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <m:Title  class="sapUiNoMarginBegin" text="Customer Details" wrapping="false" level="H5" />
+                    </m:Toolbar>
+                </snappedHeading>
+
+                <expandedHeading>
+                    <m:Toolbar  style="Clear">
+                        <m:Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
+                        <m:Title  class="sapUiNoMarginBegin" text="Customer Details" wrapping="false" level="H5" />
+                    </m:Toolbar>
+                </expandedHeading>
+                <!-- 123 -->
+                <snappedContent>
+                    <m:Text class="sapUiMediumMarginBegin" text="{CompanyName}" wrapping="false"></m:Text>
+                </snappedContent>
+
+                <expandedContent>
+                    <m:Text class="sapUiMediumMarginBegin" text="{CompanyName}" wrapping="false"></m:Text>
+                </expandedContent>
+                <!-- <actions>
+                    <m:Toolbar style="Clear">
+                        <m:ToolbarSpacer/>
+                        <m:Button icon="sap-icon://action" iconFirst="true" press=".shareButton">
+                        </m:Button>
+                    </m:Toolbar>
+                </actions> -->
+            </ObjectPageDynamicHeaderTitle>
+        </headerTitle>
+        <headerContent>
+            <!-- dymanic binding from controller -->
+            <m:VBox visible="true" width="100%" id="c_product_general_info">
+
+                <m:FlexBox rowGap="1em" columnGap="1.6rem" fitContainer="true" alignItems="Start"
+                    alignContent="Start" wrap="Wrap">
+                    <!-- <m:VBox alignItems="Center"> -->
+                    <m:Avatar decorative="true" displayShape="Circle" displaySize="XL"
+                        imageFitType="Contain" backgroundColor="Transparent" src="" />
+                    <!-- <m:layoutData>
+                            <m:FlexItemData alignSelf="Start" maxWidth="8rem"></m:FlexItemData>
+                        </m:layoutData> -->
+                    <!-- </m:ObjectStatus> -->
+                    <!-- </m:VBox> -->
+                    <!-- description card -->
+                    <m:HBox wrap="Wrap" alignItems="Start" height="100%" gap="1rem">
+                        <m:layoutData>
+                            <m:FlexItemData alignSelf="Center"></m:FlexItemData>
+                        </m:layoutData>
+                        <m:VBox gap="1rem">
+                            <m:HBox alignItems="Start">
+                                <m:Label vAlign="Middle" showColon="true" text="Customer Name"
+                                    labelFor="ccategory" displayOnly="true" wrapping="false" />
+                                <m:Text class="sapUiTinyMarginBeginEnd" text="{CompanyName}"
+                                    id="ccategory"></m:Text>
+                            </m:HBox>
+
+                            <m:HBox alignItems="Start">
+                                <m:Label vAlign="Middle" showColon="true" text="Contact Name"
+                                    labelFor="clastname" displayOnly="true" wrapping="false"></m:Label>
+                                <m:Text tooltip="associated person from the company {CompanyName}"
+                                    class="sapUiTinyMarginBeginEnd" text="{ContactName}"
+                                    id="clastname"></m:Text>
+                            </m:HBox>
+                        </m:VBox>
+                        <m:VBox gap="1rem">
+
+                            <m:HBox alignItems="Start">
+                                <m:Label vAlign="Middle" showColon="true" text="Position"
+                                    labelFor="ctitle" displayOnly="true" wrapping="false"></m:Label>
+                                <m:Text class="sapUiTinyMarginBeginEnd" text="{ContactTitle}"
+                                    id="ctitle"></m:Text>
+
+                            </m:HBox>
+
+                            <m:HBox alignItems="Start">
+                                <m:Label vAlign="Middle" showColon="true" text="Customer ID"
+                                    labelFor="cID" displayOnly="true" wrapping="false"></m:Label>
+                                <m:Text class="sapUiTinyMarginBeginEnd" text="{CustomerID}" id="cID"></m:Text>
+
+                            </m:HBox>
+                            <!-- description ended -->
+
+                        </m:VBox>
+                    </m:HBox>
+                </m:FlexBox>
+                <!-- <m:HBox width="2.5rem" wrap="NoWrap" ></m:HBox> -->
+            </m:VBox>
+        </headerContent>
+        <!-- main content -->
+        <sections>
+            <ObjectPageSection titleUppercase="false" title="Customer Info" showTitle="false"
+                anchorBarButtonColor="Tile">
+                <!-- <customAnchorBarButton>
+            <m:Button text="Product information" type="Attention"/>
+        </customAnchorBarButton> -->
+                <subSections>
+                    <ObjectPageSubSection title="Customer Info" showTitle="false"
+                        titleUppercase="false">
+                        <blocks>
+                            <form:SimpleForm layout="ColumnLayout" id="info_customer"
+                                columnsXL="3"
+                                columnsL="2"
+                                columnsM="2"
+                                labelSpanXL="-1"
+                                labelSpanL="3"
+                                labelSpanM="4"
+                                labelSpanS="12"
+                                emptySpanXL="2"
+                            >
+                                <form:title>
+                                    <core:Title text="Customer Info" />
+                                </form:title>
+
+                                <form:content>
+                                    <!-- <core:Title emphasized="false"  text=""/> -->
+                                    <m:Label text="Name" showColon="true" vAlign="Middle"
+                                        wrapping="false" displayOnly="true" textAlign="Left" />
+                                    <m:Text text="{CompanyName}" class="sapUiTinyMarginBottom"
+                                        wrapping="false" />
+
+                                    <m:Label text="Customer ID" showColon="true" vAlign="Middle"
+                                        wrapping="false" displayOnly="true" />
+                                    <m:Text text="{CustomerID}" class="sapUiTinyMarginBottom" />
+
+                                    <m:Label text="Contact Person" showColon="true" vAlign="Middle"
+                                        wrapping="false" displayOnly="true" />
+                                    <m:Text text="{ContactName}" class="sapUiTinyMarginBottom" />
+
+                                    <m:Label text="Person Designation" showColon="true"
+                                        vAlign="Middle" wrapping="false" displayOnly="true" />
+                                    <m:Text text="{ContactTitle}" class="sapUiTinyMarginBottom" />
+
+                                    <m:Label text="Phone" showColon="true" vAlign="Middle"
+                                        displayOnly="true" wrapping="false" />
+                                    <m:ObjectStatus icon="sap-icon://contacts" inverted="true"
+                                        text="{Phone}" class="sapUiTinyMarginBottom" />
+
+                                    <m:Label text="Fax" showColon="true" vAlign="Middle"
+                                        wrapping="false" displayOnly="true" />
+                                    <m:Text text="{Fax}" emptyIndicatorMode="On"
+                                        class="sapUiTinyMarginBottom" />
+                                </form:content>
+
+                                <form:content>
+                                    <m:Label text="Address" showColon="true" vAlign="Middle"
+                                        wrapping="false" displayOnly="true" />
+                                    <m:Text text="{Address}" class="sapUiTinyMarginBottom" />
+
+                                    <m:Label text="City" showColon="true" vAlign="Middle"
+                                        wrapping="false" displayOnly="true" />
+                                    <m:Text text="{City}" class="sapUiTinyMarginBottom"
+                                        wrapping="false" />
+
+                                    <m:Label text="Region" showColon="true" vAlign="Middle"
+                                        wrapping="false" displayOnly="true" />
+                                    <m:Text text="{Region}" emptyIndicatorMode="On"
+                                        class="sapUiTinyMarginBottom" wrapping="false" />
+
+                                    <m:Label text="Country" showColon="true" vAlign="Middle"
+                                        wrapping="false" displayOnly="true" />
+                                    <m:Text text="{Country}" class="sapUiTinyMarginBottom"
+                                        wrapping="false" />
+
+                                    <m:Label text="Postal Code" showColon="true" vAlign="Middle"
+                                        wrapping="false" displayOnly="true" />
+                                    <m:Text text="{PostalCode}" class="sapUiTinyMarginBottom"
+                                        wrapping="false" />
+                                </form:content>
+                            </form:SimpleForm>
+                            <!-- end  -->
+                        </blocks>
+                    </ObjectPageSubSection>
+                </subSections>
+            </ObjectPageSection>
+            <!-- section end -->
+
+            <ObjectPageSection showTitle="false">
+                <ObjectPageSubSection showTitle="false" title="Placed Orders"
+                    id="placed_orders_subsection">
+                    <blocks>
+                        <m:Table
+                            id="o_placed_orders"
+                            headerText="Placed Orders"
+                            growing="true"
+                            growingThreshold="10"
+                            autoPopinMode="true"
+                            busyIndicatorDelay="100"
+                            items="{Orders/results}"
+                        >
+                            <m:columns>
+                                <m:Column>
+                                    <m:Label text="Order ID" displayOnly="true" />
+                                </m:Column>
+
+                                <m:Column>
+                                    <m:Label wrapping="true" text="Order Date" displayOnly="true" />
+                                </m:Column>
+                                <m:Column>
+                                    <m:Label wrapping="true" text="Shipped Date" displayOnly="true" />
+                                </m:Column>
+
+
+                            </m:columns>
+                            <m:items>
+
+                                <m:ColumnListItem type="Navigation" press=".detailPress">
+                                    <m:cells>
+
+                                        <m:Text wrapping="false" text="{OrderID}" />
+                                        <m:Text
+                                            text="{path:'OrderDate',formatter:'.formatter.parseDate'}"
+                                            maxLines="3" />
+                                        <m:Text
+                                            text="{path:'ShippedDate',formatter:'.formatter.parseDate'}"
+                                            maxLines="3" />
+                                        <!-- <ObjectNumber  number="{Phone}" unit=""
+                                        state="Information" inverted="true"/> -->
+
+
+                                    </m:cells>
+                                </m:ColumnListItem>
+                            </m:items>
+                        </m:Table>
+                    </blocks>
+                </ObjectPageSubSection>
+            </ObjectPageSection>
+        </sections>
+    </ObjectPageLayout>
+
+</mvc:View>

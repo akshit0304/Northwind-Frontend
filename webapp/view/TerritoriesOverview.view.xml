@@ -1,0 +1,101 @@
+<mvc:View
+xmlns:core="sap.ui.core"
+xmlns="sap.m"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns:l="sap.ui.layout"
+xmlns:form="sap.ui.layout.form"
+controllerName="bd.businessportal.controller.TerritoriesOverview"
+>
+<!-- Page start -->
+<Page 
+    id="territory_overview"  
+    title="Territory Details" 
+    busyIndicatorDelay="300"
+    class="sapUiResponsiveMargin--content sapUiResponsiveContentPadding"
+    showNavButton="true"
+    navButtonPress=".navButtonPressed"
+    >
+    <Panel id="t_dynamicPageTitle" expandable="false" stickyHeader="false" headerText="{TerritoryDescription}" width="auto" >
+        <!-- <headerToolbar>
+            <OverflowToolbar design="Transparent">
+                <Title text="Territory Data"/>
+                <ToolbarSpacer />
+                <Button icon="sap-icon://action" iconFirst="true" press=".shareButton"/>
+            </OverflowToolbar>
+        </headerToolbar> -->
+        <content>
+            <HBox wrap="Wrap" columnGap="1.6rem"  rowGap="1rem" alignContent="Center"   class="sapUiSmallMarginBegin sapUiResponsivePadding theme-color box-border">
+                <VBox alignItems="Center" class="sapUiTinyMargin" columnGap="10px" wrap="Wrap" alignContent="Center" width="140px">
+                    <Avatar displaySize="S" src="sap-icon://world" displayShape="Circle" imageFitType="Cover"/>
+                    <HBox columnGap="10px" justifyContent="Center"  wrap="Wrap" alignContent="Center">
+                        <ObjectStatus  class="sapMObjectStatusLongText" text="Territory ID"/>
+                        <ObjectStatus class="sapMObjectStatusLongText"  state="Success" text="{TerritoryID}"/>
+                    </HBox>
+                </VBox>
+                <!-- description -->
+                <VBox alignItems="Center" class="sapUiTinyMargin" columnGap="10px" width="140px">
+                    <Avatar displaySize="S" src="sap-icon://legend" displayShape="Circle" imageFitType="Cover"/>
+                    <HBox columnGap="10px" justifyContent="Center"  wrap="Wrap" alignContent="Center">
+                        <ObjectStatus  class="sapMObjectStatusLongText"  text="Name"/>
+                        <ObjectStatus class="sapMObjectStatusLongText"  state="None" text="{TerritoryDescription}"/>
+                    </HBox>
+                </VBox>
+                <!-- territories -->
+                <VBox wrap="Wrap" alignItems="Center" class="sapUiTinyMargin" columnGap="10px" width="140px">
+                    <Avatar displaySize="S" src="sap-icon://activity-items" displayShape="Circle" imageFitType="Cover"/>
+                    <HBox columnGap="10px"  justifyContent="Center" wrap="Wrap" alignContent="Center">
+                        <ObjectStatus  class="sapMObjectStatusLongText" text="Region"/>
+                        <ObjectStatus class="sapMObjectStatusLongText"  state="Information" text="{Region/RegionDescription}"/>
+                    </HBox>
+                </VBox>
+                <!-- assiciate person -->
+                <VBox alignItems="Center" class="sapUiTinyMargin" columnGap="10px" width="140px">
+                    <Avatar displaySize="S" src="sap-icon://business-card" displayShape="Circle" imageFitType="Cover"/>
+                    <HBox columnGap="10px"  wrap="Wrap" justifyContent="Center" alignContent="Center">
+                        <ObjectStatus class="sapMObjectStatusLongText" text="Head Person"/>
+                        <ObjectStatus class="sapMObjectStatusLongText"  state="None" text="{Employees/results/0/FirstName}"/>
+                    </HBox>
+                </VBox>
+            </HBox>
+             </content>
+            </Panel>
+            <Panel expanded="false" class="sapUiSmallMarginTopBottom" width="auto" headerText="About Head Person" id="head_panel">
+                <content>
+                <form:SimpleForm 
+                    id="info_head_person"
+                    adjustLabelSpan="false"
+                    columnsXL="-1"
+                    columnsL="1"
+                    columnsM="1"
+                    labelSpanXL="-1"
+                    labelSpanL="2"
+                    emptySpanL="1"
+                    labelSpanM="2"
+                    labelSpanS="12"
+                    binding="{Employees/results/0}"
+                >
+                    <form:content>
+                                <Label text="First Name" showColon="true" vAlign="Middle" wrapping="true" displayOnly="true" textAlign="Left" />
+                                 <Text text="{FirstName}" class="sapUiTinyMarginBottom" wrapping="false"/>
+
+                                 <Label text="Last Name" showColon="true" vAlign="Middle" wrapping="true" displayOnly="true"  />
+                                 <Text text="{LastName}" class="sapUiTinyMarginBottom"/>
+
+                                 <Label text="Birth Date" showColon="true" vAlign="Middle" wrapping="true" displayOnly="true"  />
+                                 <Text text="{path:'BirthDate',formatter:'.formatter.parseDate'}" class="sapUiTinyMarginBottom"/>
+
+                                 <Label text="Phone No" showColon="true" vAlign="Middle" displayOnly="true" wrapping="true" />
+                                 <ObjectStatus text="{HomePhone}"  icon="sap-icon://contacts" inverted="true"/>
+
+                                 <Label text="" showColon="false" vAlign="Middle" displayOnly="true" />
+                                 <Link id="more" accessibleRole="Button" ariaHasPopup="None" ariaLabelledBy="more data about employee {FirstName}"
+                                    text="more ..." press=".detailPress"  />
+                    </form:content>
+                </form:SimpleForm>
+            </content>
+            </Panel>
+    
+   
+</Page>
+
+</mvc:View>

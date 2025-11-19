@@ -17,15 +17,24 @@ sap.ui.define([
     init() {
       // call the base component's init function
       UIComponent.prototype.init.apply(this, arguments);
+      let current_item=null;
       // 1-Event bus initialization
       // const oBus = sap.ui.getCore().getEventBus();
       // oBus.subscribe("myChannel", "myEvent", this.onMyEventReceived, this);
-
       // set the device model
       this.setModel(models.createDeviceModel(), "device");
 
       // enable routing
       this.getRouter().initialize();
+      this.getRouter().attachRouteMatched({},(oEvent)=>{
+        current_item =oEvent.getParameter("view").getViewName().split('.').at(-1);
+        // if(this.byId("app-"))
+        debugger;
+        this.getEventBus().publish("aside","asideSet",{
+          viewName:current_item
+        })
+        // side panel dynamic selection ---
+      },this);
       this.abord_request_flag =0;
       this.getContentDensityClass();
       this.loaded_model =undefined;

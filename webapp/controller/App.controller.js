@@ -5,7 +5,8 @@ sap.ui.define([
   'sap/ui/core/Fragment',
   'bd/businessportal/controller/DialogBox',
   'sap/ui/core/BusyIndicator',
-  'sap/ui/Device'
+  'sap/ui/Device',
+  'sap/m/MessageToast'
 
 ], (BaseController,
   XMLView,
@@ -13,7 +14,8 @@ sap.ui.define([
   Fragment,
   DialogBox,
   BusyIndicator,
-  Device
+  Device,
+  MessageToast
 
 ) => {
   "use strict";
@@ -55,12 +57,13 @@ sap.ui.define([
       this.main_page = this.byId("shell_page");
       this.oNavContainer = this.byId("navContainer");
       this.component = this.getOwnerComponent();
+      // console.log(this.component);
       this.router = this.component.getRouter();
       this.HISTORY =[];
       this.CURRENT_ITEM ="Dashboard"
       this.getView().addEventDelegate({
         onAfterShow: function () {
-          this._setFocus("hamburgerMenu");
+          // this._setFocus("hamburgerMenu");
           // this._setNavigationList('list');
         }.bind(this),
         onBeforeShow:function(){
@@ -71,6 +74,15 @@ sap.ui.define([
       // if(Device.support.touch){
       //    this.component._buttonExpandLogic(1,0);
       // }
+    },
+    onAfterRendering(){
+      // console.log("app after rendering");
+      this.component.getEventBus().subscribe('aside','asideSet',this._setSideMenuItem,this);
+      this.oNavContainer.attachAfterNavigate({},this.navContainer_afterNavigate,this);
+    },
+    _setSideMenuItem:function(channelName,oEvent,{viewName}){
+      viewName =this._viewNameLogic(viewName);       
+      this._setNavigationList('sideNavigation',viewName);
     },
     _loadView: function (sViewName) {
       if(this.oNavContainer.getCurrentPage().getViewName().split('.').at(-1)==sViewName){
@@ -124,7 +136,7 @@ sap.ui.define([
       )
 
     },
-    _setNavigationList: function (id,keyName=null) {
+    _setNavigationList: function (id='sideNavigation',keyName=null) {
       const control = this.byId(id);
       if(!keyName) {
           // keyName ="Dashboard";
@@ -245,6 +257,29 @@ sap.ui.define([
         point.open();
       })
     },
-    
+    navContainer_afterNavigate: function(oEvent){
+      // console.log("after navigate navcontainer evetn fired");
+      // debugger;
+      // console.log(oEvent);
+      /**
+       * - configarable variable 
+       * - sets array size for navContainer that define how many pages can store in navContainer
+       */
+      const CONFIG_PAGESIZE =5;
+      const container =oEvent.getSource();
+      const page_list =container.getPages();
+      const total_page =page_list.length;
+      if(total_page>CONFIG_PAGESIZE){
+        MessageToast.show(`total page size > ${CONFIG_PAGESIZE} \n removed last one`);
+        container.removePage(page_list.at(-1));
+      }
+      // this._setNavigationList()
+    },
+    _viewNameLogic:function(viewName){
+        viewName =viewName.replace("Overview","");
+        if(viewName=="Territories"){
+        // do this because region and territories are in same section.
+        viewName ="Regions" }
+    } 
   });
 });

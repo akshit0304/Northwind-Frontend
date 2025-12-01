@@ -1,0 +1,48 @@
+<core:FragmentDefinition xmlns:form="sap.ui.layout.form" xmlns="sap.m"
+                         xmlns:core="sap.ui.core"
+                         >
+            <Dialog  draggable="true" id="dialog_add_category" title="Add Category" horizontalScrolling="false" contentWidth="50%">
+                <customHeader>
+                    <Bar design="Header" >
+                        <contentLeft>
+                            <Title  text="Add Category" ></Title>
+                        </contentLeft>
+                        <contentRight>
+                            <Button id="dialog_category_close" icon="sap-icon://decline" type="Emphasized" iconFirst="true" press=".dialogClose"/>
+                        </contentRight>
+                    </Bar>
+                </customHeader>
+            <content>
+                <VBox alignContent="Stretch" width="auto">
+                    <form:SimpleForm 
+                            id="category_form"
+                            layout="ColumnLayout"
+                            columnsXL="1"
+                            columnsL="1"
+                            columnsM="1"
+                            labelSpanXL="-1"
+                            labelSpanL="3"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            emptySpanXL="2"
+                            
+                    >
+                    <form:content>
+                            <Label text="Name" showColon="true" vAlign="Middle" wrapping="false" displayOnly="false" labelFor="name"  />
+                            <Input type="Text" autocomplete="false"  placeholder="category name" id="name" value="{path:'form_local>/CategoryName',type:'bd.businessportal.utils.odataType',constraints:{onlyAlphabet:true}}">
+                            </Input>
+
+                            <Label text="Description" showColon="true" vAlign="Middle" wrapping="false" displayOnly="false" labelFor="desc"  />
+                            <Input type="Text" autocomplete="false"  placeholder="category name" id="desc" value="{path:'form_local>/Description',type:'bd.businessportal.utils.odataType',constraints:{onlyAlphabet:true}}"></Input>
+                    </form:content>
+                    </form:SimpleForm>
+                    <Button type="Emphasized" text="ADD" press=".submit_category"   accessibleRole="Link" ariaLabelledBy="submit">
+                    <layoutData>
+                        <FlexItemData minHeight="auto" alignSelf="Center"></FlexItemData>
+                    </layoutData>
+                    </Button>
+                </VBox>
+                    
+            </content>
+            </Dialog>               
+</core:FragmentDefinition>

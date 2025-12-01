@@ -2,96 +2,69 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "bd/businessportal/model/Formatter",
     "bd/businessportal/utils/General",
-    "sap/ui/model/json/JSONModel",
-    "bd/businessportal/utils/setModel",
-    "bd/businessportal/utils/Breadcrumb",
-    
-],(Controller,
+    "sap/ui/model/json/JSONModel"
+
+], (Controller,
     Formatter,
     General,
-    JSONModel,
-    setModel,
-    Breadcrumb
-)=>{
+    JSONModel
+) => {
     "use strict"
-    // function createBreadcrumb(){
-    //     const  list =this.rc.getBreadcrumbAr();
-    //     const breadcrumb_data =[];
-    //     let index =-1;
-    //     let object =list.at(index);
-    //     let object_level =object["level"];
-    //     let object_name =object["name"];
-    //     breadcrumb_data.push(object_name);
-    //     while (object_level>0) {
-    //         index--;
-    //         object =list.at(index);
-    //         object_level =object["level"];
-    //         object_name =object["name"];
-    //         breadcrumb_data.push(object_name);
-    //     }
-    //     return breadcrumb_data.reverse();   
-    // }
-    // dynamically insert the link
-    // function createDynamicBreadcrumb(){
-    //     const link_data =createBreadcrumb.call(this);
-    //     let breadcrumb =this.byId("c_breadcrumb");
-    //     let link_object;
-    //     for (const link of link_data) {
-    //         link_object =new sap.m.Link({
-    //             text:link
-    //         });
-    //         breadcrumb.addLink(link_object);
-    //     }
-    //     breadcrumb.setCurrentLocation(link_object);
-
-    // }
     return Controller.extend("bd.businessportal.controller.Categories", {
-        formatter:Formatter,
+        formatter: Formatter,
         onInit() {
             // console.log("dashboard initialized");
-            this.main_page =this.byId("category_page");
-            this.table =this.byId("table_category");
-            this.component =this.getOwnerComponent();
-            const expandFlag =this.component.expandFlag;
-            this.oNavContainer = this.component.byId("App--navContainer");
-            this.root_element =this.component.byId("App");
+            this.main_page = this.byId("category_page");
+            this.table = this.byId("table_category");
+            this.component = this.getOwnerComponent();
+            const expandFlag = this.component.expandFlag;
+            // this.oNavContainer = this.component.byId("App--navContainer");
+            this.root_element = this.component.byId("App");
+            this.oNavContainer = this.root_element.byId('navContainer');
             // this.rc =this.root_element.getController();
             // this.root_element =sap.ui.getCore().byId("container-bd.businessportal---App");
             // this.component = sap.ui.core.Component.getOwnerComponentFor(this.root_element);
             // _set contetn density class
             this.getView().addStyleClass(this.component.getContentDensityClass());
             this.getView().addEventDelegate({
-                onBeforeShow:function(){
+                onBeforeShow: function () {
                     this.component._buttonExpandLogic(1, expandFlag);
-                    setModel.configureModel.call(this,"Categories.json");
-                    
                 }.bind(this)
             })
-             // fetch data from 0-data/v2
+            // odataV4 instace parameter set
+            this.component.modelodataV4_instace._changeContextandId(this, "category_page");
+
         },
-        onAfterRendering(){
+        onAfterRendering() {
             console.log("category page after rendering");
-             let oModel = this.component.getModel("MD");
-            //  const oBinding = oModel.bindList("/Categories");
-        // console.log(oBinding.requestContexts(0, 10));
-            // oBinding.requestContexts(0, 10).then((data)=>{
-            //     console.log(data.map(oContext => oContext.getObject()))});
+            // json model for form data
+            this.local_data =new JSONModel({"categoryName":null,"categoryDescription":null},true);
+            this.getView().setModel(this.local_data,"form_local");
+            // json model end
+            if (!this.add_category_frag) {
+                this.add_category_frag = this.loadFragment({
+                    name: "bd.businessportal.view.Dialog_category"
+                });
+
+                this.add_category_frag.then((oDialog)=>{
+                    this.byId("dialog_category_close").attachPress({},(oEvent)=>{
+                        oDialog.close();
+                    })
+                })
+            }
         },
         // onBeforeRendering:function(){
         //     // createDynamicBreadcrumb.call(this);
         //     const list =this.rc.getBreadcrumbAr();
         //     Breadcrumb.createDynamicBreadcrumb(this,"c_breadcrumb",list);
         // },
-        navButtonPressed:function(oEvent){
+        navButtonPressed: function (oEvent) {
             this.root_element.getController().backButton(oEvent);
         },
-        overViewPage:function(oEvent){
-            this.oNavContainer.setBusy(true);
-            // console.log(oEvent.getParameter("listItem"));
-            var oContext = oEvent.getParameter("listItem").getBindingContext().getPath();
-            // console.log(oContext);
-            if(!oContext) {
-                this.oNavContainer.setBusy();   
+        overViewPage: function (oEvent) {
+            // console.log("nav pressed");
+            var object_id = oEvent.getParameter('listItem').getBindingContext("MD").getProperty("ID");
+            if (!object_id) {
                 throw new Error("Error id is undefined");
             }
             // console.log(oContext);
@@ -110,9 +83,67 @@ sap.ui.define([
             //     };
             //     this.rc.setBreadcrumbAr(breadcrumb_obj);
             // }
-            const model =this.component.getModel("nav");
-            model.setProperty("/idOfBindElement",oContext);
-            this.root_element.getController()._loadView("CategoriesOverview");
-          },
+            // const model =this.component.getModel("nav");
+            // model.setProperty("/idOfBindElement",oContext);
+            // this.root_element.getController()._loadView("CategoriesOverview");
+            const router = this.component.getRouter();
+            router.navTo("categoryOverview", { CID: object_id });
+        },
+        add_category: function (oEvent) {
+            console.log("button pressed");
+            if (!this.add_category_frag) {
+                this.add_category_frag = this.loadFragment({
+                    name: "bd.businessportal.view.Dialog_category"
+                });  
+                // if state end
+            }
+            this.add_category_frag.then((oDialog) => {
+                    oDialog.open();
+                })
+            
+        },
+        submit_category: function(oEvent){
+            console.log("submit button pressed");
+            
+            const form_cntr_content =this.byId("category_form").getContent();
+            let validation_obj ={
+                total_needed_flag :2,
+                validataion_flag:0
+            };
+            form_cntr_content.forEach((cntr)=>{
+                if(cntr.getMetadata()["_sClassName"]=="sap.m.Input" && cntr.getValueState()=="None"){
+                       validation_obj['validataion_flag']++;
+                }
+            });
+            if(validation_obj['total_needed_flag']==validation_obj['validataion_flag']){
+                console.log("all i/p validated");
+                // json object data
+                const form_local =this.getView().getModel("form_local");
+                let form_local_data =form_local.getJSON();
+                // make odata v4 create request ----
+                if(!this.component.getModel("MD").hasPendingChanges()){
+                    // debugger;
+                    //    const temp =this.component.getModel("MD").createBindingContext('/',"MD");
+                        const oList = this.component.getModel("MD").bindList("/Categories")
+                    // debugger;
+                    console.log(form_local_data);
+                    // debugger;
+                    oList.create({
+                        CategoryName: form_local.getProperty("/categoryName"),
+                        Description:form_local.getProperty("/categoryDescription")
+                    });
+                    this.component.getModel("MD").submitBatch("$auto").then((a)=>{
+                        console.log(a);
+                        form_local.setData({"categoryName":null,"categoryDescription":null});
+                        this.byId("table_category").getBinding("items").refresh();
+                        // this.byId("table_category").
+                        this.byId('dialog_category_close').firePress({});
+                    });
+                }
+            }
+        }
+        // dialog_create_close: function(oEvent){
+        //     oEvent
+        // }
     });
 })

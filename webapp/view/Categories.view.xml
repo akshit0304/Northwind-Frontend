@@ -21,21 +21,30 @@
                         <Title class="sapUiNoMarginBegin" text="{nav>/pageTitles/category}" wrapping="false" titleStyle="H3" />
                     </Toolbar>
                         </f:snappedHeading>
+                        <f:actions>
+                            <Toolbar style="Clear" ariaHasPopup="Dialog">
+                                <Button id="btn_add_category" icon="sap-icon://add" iconFirst="true" type="Default" press=".add_category" > </Button>
+                            </Toolbar>
+                        </f:actions>
             </f:DynamicPageTitle>
         </f:title>
         <f:content>
              <Panel expandable="false" stickyHeader="false" width="auto">
 
             <List mode="None" id="table_category"
-                itemPress="overViewPage" items="{/results}">
+                itemPress=".overViewPage" items="{
+                    path:'MD>/Categories',
+                    suspended: false,
+                    sorter:[{path:'MD>CategoryName'}]
+                }">
 
                 <ObjectListItem
-                    title="{CategoryName}"
+                    title="{MD>CategoryName}"
                     type="Navigation"
-                    number="{=${path:'Products/results'}.length}"
+                    number="99"
                     numberUnit="Products">
-                    <ObjectAttribute text="Category ID : {CategoryID}" active="false" />
-                    <ObjectAttribute text="{Description}" active="false" />
+                    <ObjectAttribute text="Category ID : {MD>ID}" active="false" reactiveAreaMode="Overlay"/>
+                    <ObjectAttribute text="{path:'MD>Description',type:'sap.ui.model.type.String'}" active="false" />
                 </ObjectListItem>
 
             </List>

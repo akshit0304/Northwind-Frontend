@@ -1,11 +1,11 @@
-<mvc:View xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:filterbar="sap.ui.comp.filterbar"
+<mvc:View xmlns:uxap="sap.uxap" xmlns:f="sap.f" xmlns:layout="sap.ui.layout" xmlns:filterbar="sap.ui.comp.filterbar"
     displayBlock="true"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
     xmlns:core="sap.ui.core"
     controllerName="bd.businessportal.controller.Categories"
 >
-    <f:DynamicPage id="category_page" >
+    <f:DynamicPage id="category_page" showFooter="false" >
         <f:title>
             <f:DynamicPageTitle >
                 <f:heading>
@@ -23,7 +23,9 @@
                         </f:snappedHeading>
                         <f:actions>
                             <Toolbar style="Clear" ariaHasPopup="Dialog">
+                                <Button id="btn_del_category" icon="sap-icon://delete"  press=".del_category"></Button>
                                 <Button id="btn_add_category" icon="sap-icon://add" iconFirst="true" type="Default" press=".add_category" > </Button>
+                                <Button id="btn_edit_category" icon="sap-icon://edit" iconFirst="true" type="Default" press=".edit_category" > </Button>
                             </Toolbar>
                         </f:actions>
             </f:DynamicPageTitle>
@@ -31,14 +33,17 @@
         <f:content>
              <Panel expandable="false" stickyHeader="false" width="auto">
 
-            <List mode="None" id="table_category"
+            <List mode="None" includeItemInSelection="false"  id="table_category" rememberSelections="true"
                 itemPress=".overViewPage" items="{
                     path:'MD>/Categories',
                     suspended: false,
-                    sorter:[{path:'MD>CategoryName'}]
+                    parameters: {
+                                $$groupId: '$auto'
+                            },
+                    sorter:[{path:'CategoryName'}]
                 }">
-
                 <ObjectListItem
+                    fieldGroupIds="group_category"
                     title="{MD>CategoryName}"
                     type="Navigation"
                     number="99"
@@ -50,5 +55,14 @@
             </List>
         </Panel>
         </f:content>
+        <f:footer>
+            <OverflowToolbar  class="sapUiLargeMarginBeginEnd" asyncMode="true"  active="false" design="Transparent">
+            <ToolbarSpacer ></ToolbarSpacer>
+
+                <Button  text="select all" id="selectall_category" type="Transparent"  press="._footerCombinedButtons"></Button>
+                <Button text="delete" type="Reject" id="deleteItems_category" enabled="false"  press="._footerCombinedButtons"></Button>
+                <Button class="sapUiSmallMarginEnd" text="cancel" type="Emphasized" press="._footerCombinedButtons"></Button>
+            </OverflowToolbar>
+        </f:footer>
     </f:DynamicPage>
 </mvc:View>

@@ -7,7 +7,7 @@ sap.ui.define([
         // const Message_ =Message(msgConfig);
         // deffered
         
-        const makeRequest =baseObject.extend("bd.businessportal.utils_v2/oDataRequestComp",{
+        const makeRequest =baseObject.extend("bd.businessportal.utils_v2.oDataRequestComp",{
             /**
              * @param {Object} modelDetailObj - { 
              *                             - modelName:xyz 
@@ -25,6 +25,27 @@ sap.ui.define([
                 this.modelDetailObj =modelDetailObj;
                 this.groupId = modelDetailObj.groupId;
             },
+            /**
+             * - the function should not depend upon constructor parameters.
+             */
+            applyDelete:function(that,oItemList,groupIdName=null){
+                try {
+                    if(that.odataModel.hasPendingChanges()){
+                        that.odataModel.resetChanges(groupIdName); }
+                    if(Array.isArray(oItemList) && oItemList.length){
+                        // const itemListLength =oItemList.length;
+                        if(oItemList[0]=='all'){
+                            oItemList =that.table.getItems();
+                        }
+                        const item_delete_promise_list =oItemList.map(oItem => oItem.getBindingContext('MD').delete(groupIdName));
+                        return item_delete_promise_list;
+                    }
+                    return 430 //status code 430 for empty list items in oItemList parameter , which means there is no item selected to delete.(use to control the submit-batch method in callee function.)
+                } catch (error) {
+                    throw new Error("in oDataRequestComp; got error in delete method "); 
+                }
+            },
+
             _checkModelReferenceExist: function(){
                 if(!this.modelDetailObj.modelReference){
                     return this._getModel();
@@ -69,8 +90,8 @@ sap.ui.define([
                     }
                 }
                 if(flag){
-                    modelBind.create(this.payloadData);
-                    return true;
+                    return modelBind.create(this.payloadData);
+                    
                 }
                     return false;
             },
@@ -182,16 +203,20 @@ sap.ui.define([
                         let isRequestdone =obj.applySubmitBatch();
                         if(!isRequestdone){
                             obj.applyResetOnModel();
+                            obj.applyCreateOnModel(modelbind);
                             isRequestdone =obj.applySubmitBatch();
                             if(!isRequestdone){
                                 return "looks like connection issue"
                             }
                         }
-                        return isRequestdone;
+                        return {'submitPromise':isRequestdone,
+                            'oContext':dataCreatedOrNot
+                        };
                     }
                     throw new Error("issue in applyCreateOnModel method");
                 } catch (error) {
-                    return error;
+                    throw new Error(error.message,{cause:e});
+                    
                 }    
             }
         });

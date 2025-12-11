@@ -1,0 +1,39 @@
+<core:FragmentDefinition xmlns:form="sap.ui.layout.form" xmlns="sap.m"
+                         xmlns:core="sap.ui.core"
+                         >
+
+
+                        <TableSelectDialog id="edit_category_dialog" confirm=".edit_category_event"  confirmButtonText="select" growing="false" title="Edit Category" titleAlignment="Start" items="{
+                    path:'MD>/Categories',
+                     parameters: {
+                            $$groupId: '$auto.edit_fragment'
+                        },
+                    sorter:[{path:'CategoryName'}]
+                }">
+
+                            <columns>
+                                <Column visible="false">
+                                    <Text wrapping="false" text="Category ID" textAlign="Right"></Text>
+                                </Column>
+
+                                <Column >
+                                    <Text wrapping="false" text="Category Name" textAlign="Right"></Text>
+                                </Column>
+
+                                <Column visible="true">
+                                    <Text wrapping="false" text="Category Description" textAlign="Right"></Text>
+                                </Column>
+                            </columns>
+
+                             <items>
+
+                            <ColumnListItem type="Active" press=".edit-temp">
+                                <cells>
+                                        <ObjectIdentifier title="{MD>ID}"></ObjectIdentifier>
+                                        <ObjectIdentifier  text="{MD>CategoryName}"></ObjectIdentifier>
+                                        <Text text="{MD>Description}" wrapping="true" maxLines="1"></Text>
+                                </cells>
+                            </ColumnListItem>
+                        </items>
+                        </TableSelectDialog>             
+</core:FragmentDefinition>

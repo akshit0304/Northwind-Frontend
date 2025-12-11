@@ -24,16 +24,22 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"],
                 return false;
             },
             pContinued_:function(label){
+                if(typeof label=='number'){label =Boolean(label);}
+                else if(typeof label=="string" && ['0','1'].includes(label)){label =Boolean(label)}
                 if (typeof label=="boolean"){
                     return !label?"sap-icon://sys-enter-2":"sap-icon://cancel"
                 } 
             },
             pContinued_state:function(label){
+                if(typeof label=='number'){label =Boolean(label);}
+                else if(typeof label=="string" && ['0','1'].includes(label)){label =Boolean(label)}
                 if (typeof label=="boolean"){
                     return !label?"Success":"Warning"
                 } 
             },
             pContinued_text:function(label){
+                if(typeof label=='number'){label =Boolean(label);}
+                if(typeof label=="string" && ['0','1'].includes(label)){label =Boolean(label)}
                 if (typeof label=="boolean"){
                     return !label?"In Stock":"Out Of Stock"
                 }
@@ -41,6 +47,16 @@ sap.ui.define(["sap/ui/core/format/NumberFormat"],
             employeeStatus:function(num){
                 // console.log(num);
                 return num?"Success":"Warning"
+            },
+            convertStrInt:function(num){
+                // console.log(num);
+                if(typeof num =="string"){
+                    num=num?.replace(/,/g, '').trim();
+                    num =Number(num);
+                    if(num!=Number.NaN){return num}
+                    return 0;
+                }
+                return num;
             },
             emptyDataHandle:function(data){
                 // console.log(data);

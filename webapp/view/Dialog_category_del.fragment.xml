@@ -1,0 +1,22 @@
+<core:FragmentDefinition xmlns:form="sap.ui.layout.form" xmlns="sap.m"
+                         xmlns:core="sap.ui.core"
+                         >
+
+                         <TableSelectDialog id="dialog_del_category" growing="false" confirmButtonText="Delete" growingThreshold="10" multiSelect="true" searchPlaceholder="search category" 
+                            confirm=".delete_category" cancel=".close_dialog"
+                            items="{ path:'MD>/Categories', sorter:{path:'CategoryName'}}"
+                            >
+                        <columns>
+                                <Column visible="true">
+                                    <Text wrapping="false" text="Category Name"></Text>
+                                </Column>
+                        </columns>
+                         <ColumnListItem vAlign="Middle" navigated="false" selected="false">
+                                <cells>
+                                    <ObjectAttribute text="{MD>CategoryName}" active="false" reactiveAreaMode="Overlay"/>
+                                    <ObjectAttribute text="{path:'MD>Description',type:'sap.ui.model.type.String'}" active="false" />
+                                </cells>
+                         </ColumnListItem>
+
+                         </TableSelectDialog>       
+</core:FragmentDefinition>

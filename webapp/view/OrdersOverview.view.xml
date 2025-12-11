@@ -17,7 +17,7 @@ controllerName="bd.businessportal.controller.OrdersOverview"
                 <uxap:snappedHeading>
                     <Toolbar  style="Clear">
                         <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
-                        <Title class="sapUiNoMarginBegin"  text="Order #{OrderID}" wrapping="false" titleStyle="H5" />
+                        <Title class="sapUiNoMarginBegin"  text="Order #{MD>ID}" wrapping="false" titleStyle="H5" />
                     </Toolbar>
                 </uxap:snappedHeading>
 
@@ -25,7 +25,7 @@ controllerName="bd.businessportal.controller.OrdersOverview"
                     <HBox width="100%" gap="5px">
                     <Toolbar  style="Clear">
                         <Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
-                        <Title class="sapUiNoMarginBegin"  text="Order #{OrderID}" wrapping="false" titleStyle="H5" />
+                        <Title class="sapUiNoMarginBegin"  text="Order #{MD>ID}" wrapping="false" titleStyle="H5" />
                     </Toolbar>
                     </HBox>
                 </uxap:expandedHeading>
@@ -41,7 +41,7 @@ controllerName="bd.businessportal.controller.OrdersOverview"
                                 <FlexItemData  baseSize="200px"></FlexItemData>
                             </layoutData>
                             <Label vAlign="Middle" showColon="true" text="OrderID" displayOnly="true" wrapping="false"/>
-                            <ObjectNumber number="{OrderID}" unit="" state="Information" class="sapMObjectNumberLarge sapUiSmallMarginTop" />
+                            <ObjectNumber number="{MD>ID}" unit="" state="Information" class="sapMObjectNumberLarge sapUiSmallMarginTop" />
                             <!-- description ended -->
                         </VBox>
                     <!-- </VBox> -->
@@ -56,11 +56,11 @@ controllerName="bd.businessportal.controller.OrdersOverview"
                         </layoutData> -->
                         <HBox alignItems="Start" columnGap="10px">
                                 <Label vAlign="Middle" showColon="true" text="Order"  displayOnly="true" wrapping="false"></Label>
-                                <Text text="{path:'OrderDate',formatter:'.formatter.parseDate'}" />
+                                <Text text="{path:'MD>OrderDate',formatter:'.formatter.parseDate'}" />
                         </HBox>
                         <HBox columnGap="10px">
                             <Label vAlign="Middle" showColon="true" text="Shipped"  displayOnly="true" wrapping="false"></Label>
-                            <Text text="{path:'ShippedDate',formatter:'.formatter.parseDate'}" />
+                            <Text text="{path:'MD>ShippedDate',formatter:'.formatter.parseDate'}" />
                         </HBox>
                         
                     </VBox>
@@ -75,11 +75,11 @@ controllerName="bd.businessportal.controller.OrdersOverview"
                         
                         <HBox alignItems="Start" columnGap="10px">
                                 <Label vAlign="Middle" showColon="true" text="Customer Name"  displayOnly="true" wrapping="false"></Label>
-                                <Text text="{Customer/CompanyName}" wrapping="false" maxLines="3" />
+                                <Text text="{MD>customer/CompanyName}" wrapping="false" maxLines="3" />
                         </HBox>
                         <HBox columnGap="10px">
                                 <Label vAlign="Middle" showColon="true" text="Employee Name"  displayOnly="true" wrapping="false"></Label>
-                                 <Text  text="{Employee/TitleOfCourtesy} {Employee/FirstName}" wrapping="false" maxLines="3"  />
+                                 <Text  text="{MD>employee/TitleOfCourtesy} {MD>employee/FirstName}" wrapping="false" maxLines="3"  />
                         </HBox>
                     </VBox>
                 </FlexBox>
@@ -116,22 +116,22 @@ controllerName="bd.businessportal.controller.OrdersOverview"
                 </form:title> -->
                     <form:content>
                         <Label text="ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{OrderID}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>ID}" class="sapUiTinyMarginBottom"/>
                         <Label text="Customer ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{CustomerID}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>CustomerID}" class="sapUiTinyMarginBottom"/>
                         <Label text="Employee ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{EmployeeID}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>EmployeeID}" class="sapUiTinyMarginBottom"/>
 
                     </form:content>
 
                     <!-- column 2 -->
                      <form:content>
                         <Label text="Order Date" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{path:'OrderDate',formatter:'.formatter.parseDate'}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{path:'MD>OrderDate',formatter:'.formatter.parseDate'}" class="sapUiTinyMarginBottom"/>
                         <Label text="Last Date" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{path:'RequiredDate',formatter:'.formatter.parseDate'}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{path:'MD>RequiredDate',formatter:'.formatter.parseDate'}" class="sapUiTinyMarginBottom"/>
                         <Label text="Shipped Date" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{path:'ShippedDate',formatter:'.formatter.parseDate'}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{path:'MD>ShippedDate',formatter:'.formatter.parseDate'}" class="sapUiTinyMarginBottom"/>
 
                     </form:content>
                 </form:SimpleForm>
@@ -164,19 +164,19 @@ controllerName="bd.businessportal.controller.OrdersOverview"
                 </form:title>
                 <form:content>
                         <Label text="Company" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{Customer/CompanyName}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>customer/CompanyName}" class="sapUiTinyMarginBottom"/>
 
                         <Label text="Contact Person" showColon="true" vAlign="Middle"  displayOnly="true" wrapping="true" />
-                        <Text  text="{Customer/ContactName}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>customer/ContactName}" class="sapUiTinyMarginBottom"/>
 
                         <Label text="Phone" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{Customer/Phone}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>customer/Phone}" class="sapUiTinyMarginBottom"/>
 
                         <Label text="Location" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{Customer/City} ({Customer/Country})" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>customer/City} ({MD>customer/Country})" class="sapUiTinyMarginBottom"/>
 
                         <Label text="ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{Customer/CustomerID}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>customer/CustomerID}" class="sapUiTinyMarginBottom"/>
                 </form:content>
             </form:SimpleForm>
                         </uxap:blocks>
@@ -208,28 +208,28 @@ controllerName="bd.businessportal.controller.OrdersOverview"
                     <form:content>
                        
                         <Label text="Shipper Name" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{ShipName}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>ShipName}" class="sapUiTinyMarginBottom"/>
 
                         <Label text="Item Freight" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{Freight}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>Freight}" class="sapUiTinyMarginBottom"/>
 
                          <Label text="Shipper ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{ShipVia}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>ShipVia}" class="sapUiTinyMarginBottom"/>
 
                         <Label text="Address" showColon="true" vAlign="Middle"  displayOnly="true" tooltip="Delievery Address" />
-                        <Text  text="{ShipAddress}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>ShipAddress}" class="sapUiTinyMarginBottom"/>
 
                         <Label text="City" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{ShipCity}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>ShipCity}" class="sapUiTinyMarginBottom"/>
 
                         <Label text="Country" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{ShipCountry}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>ShipCountry}" class="sapUiTinyMarginBottom"/>
 
-                        <Label text="Region" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{ShipRegion}" class="sapUiTinyMarginBottom" emptyIndicatorMode="On"/>
+                        <!-- <Label text="Region" showColon="true" vAlign="Middle"  displayOnly="true"  />
+                        <Text  text="{ShipRegion}" class="sapUiTinyMarginBottom" emptyIndicatorMode="On"/> -->
 
                         <Label text="Postal Code" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{ShipPostalCode}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>ShipPostalCode}" class="sapUiTinyMarginBottom"/>
                     </form:content>
                 </form:SimpleForm> 
                         </uxap:blocks>
@@ -263,13 +263,13 @@ controllerName="bd.businessportal.controller.OrdersOverview"
                 </form:title>
                 <form:content>
                         <Label text="Name" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{Employee/TitleOfCourtesy} {Employee/FirstName}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>employee/TitleOfCourtesy} {MD>employee/FirstName}" class="sapUiTinyMarginBottom"/>
 
                         <Label text="Role" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{Employee/Title}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>employee/Title}" class="sapUiTinyMarginBottom"/>
 
                         <Label text="ID" showColon="true" vAlign="Middle"  displayOnly="true"  />
-                        <Text  text="{Employee/EmployeeID}" class="sapUiTinyMarginBottom"/>
+                        <Text  text="{MD>employee/EmployeeID}" class="sapUiTinyMarginBottom"/>
 
 
                         <!-- <Text  text="{Employee/EmployeeID}" class="sapUiTinyMarginBottom"/> -->

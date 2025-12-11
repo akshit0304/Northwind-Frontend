@@ -25,17 +25,17 @@
             <tnt:sideContent>
                 <tnt:SideNavigation id="sideNavigation" ariaLabel="side panel for navigating to different pages"  selectedKey="Dashboard" itemSelect=".onItemSelect">
                     <tnt:NavigationList id="list">
-                        <tnt:NavigationListItem key="Dashboard" text="Dashboard" icon="sap-icon://home" id="dashboard"/>
-                        <tnt:NavigationListItem key="Categories" text="Categories" icon="sap-icon://product" />
-                        <tnt:NavigationListItem key="Products" text="Products" icon="sap-icon://add-product" />
-                        <tnt:NavigationListItem key="Orders" text="Orders" icon="sap-icon://clinical-task-tracker" />
-                        <tnt:NavigationListItem key="Suppliers" text="Suppliers" icon="sap-icon://supplier" />
-                        <tnt:NavigationListItem key="Shippers" text="Shippers" icon="sap-icon://shipping-status" />
+                        <tnt:NavigationListItem key="Dashboard" text="Dashboard" icon="sap-icon://home" id="dashboard"> <tnt:customData><core:CustomData key="router_path" value="dashboard"></core:CustomData></tnt:customData></tnt:NavigationListItem>
+                        <tnt:NavigationListItem key="Categories" text="Categories" icon="sap-icon://product" > <tnt:customData><core:CustomData key="router_path" value="category"></core:CustomData></tnt:customData></tnt:NavigationListItem>
+                        <tnt:NavigationListItem key="Products" text="Products" icon="sap-icon://add-product" > <tnt:customData><core:CustomData key="router_path" value="product"></core:CustomData></tnt:customData></tnt:NavigationListItem>
+                        <tnt:NavigationListItem key="Orders" text="Orders" icon="sap-icon://clinical-task-tracker" > <tnt:customData><core:CustomData key="router_path" value="order"></core:CustomData></tnt:customData></tnt:NavigationListItem>
+                        <tnt:NavigationListItem key="Suppliers" text="Suppliers" icon="sap-icon://supplier" > <tnt:customData><core:CustomData key="router_path" value="supplier"></core:CustomData></tnt:customData></tnt:NavigationListItem>
+                        <tnt:NavigationListItem key="Shippers" text="Shippers" icon="sap-icon://shipping-status" > <tnt:customData><core:CustomData key="router_path" value="shipper"></core:CustomData></tnt:customData></tnt:NavigationListItem>
 
                         <!-- <tnt:NavigationListItem key="Officials" text="Officials" icon="sap-icon://manager" /> -->
-                        <tnt:NavigationListItem key="Employees" text="Employees" icon="sap-icon://manager" />
-                        <tnt:NavigationListItem key="Customers" text="Customers" icon="sap-icon://customer" />
-                        <tnt:NavigationListItem key="Regions" text="Regions &amp; Territories" icon="sap-icon://world" />
+                        <tnt:NavigationListItem key="Employees" text="Employees" icon="sap-icon://manager" ><tnt:customData><core:CustomData  key="router_path" value="employee"></core:CustomData></tnt:customData></tnt:NavigationListItem>
+                        <tnt:NavigationListItem key="Customers" text="Customers" icon="sap-icon://customer" ><tnt:customData><core:CustomData  key="router_path" value="employee"></core:CustomData></tnt:customData></tnt:NavigationListItem>
+                        <tnt:NavigationListItem key="Regions" text="Regions &amp; Territories" icon="sap-icon://world" ><tnt:customData><core:CustomData  key="router_path" value="employee"></core:CustomData></tnt:customData></tnt:NavigationListItem>
                         <!-- <tnt:NavigationListItem key="Territories" text="Territories" icon="sap-icon://world" /> -->
                     </tnt:NavigationList>
                     <tnt:fixedItem>
@@ -57,7 +57,7 @@
 
             <!-- main content -->
             <tnt:mainContents>
-                <NavContainer id="navContainer" initialPage="Dashboard" autoFocus="false"  class="sapUiResponsiveContentPadding" busyIndicatorDelay="500"
+                <NavContainer id="navContainer"  class="sapUiResponsiveContentPadding" busyIndicatorDelay="500"
                  >
                     <pages>
                         <!-- <mvc:XMLView id="dashboard_page" viewName="bd.businessportal.view.Dashboard" /> -->

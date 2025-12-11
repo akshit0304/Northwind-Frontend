@@ -77,12 +77,7 @@ sap.ui.define([
     },
     onAfterRendering(){
       // console.log("app after rendering");
-      this.component.getEventBus().subscribe('aside','asideSet',this._setSideMenuItem,this);
       this.oNavContainer.attachAfterNavigate({},this.navContainer_afterNavigate,this);
-    },
-    _setSideMenuItem:function(channelName,oEvent,{viewName}){
-      viewName =this._viewNameLogic(viewName);       
-      this._setNavigationList('sideNavigation',viewName);
     },
     _loadView: function (sViewName) {
       if(this.oNavContainer.getCurrentPage().getViewName().split('.').at(-1)==sViewName){
@@ -137,6 +132,8 @@ sap.ui.define([
 
     },
     _setNavigationList: function (id='sideNavigation',keyName=null) {
+      // for region & territories ----
+      keyName =this._viewNameLogic(keyName);  
       const control = this.byId(id);
       if(!keyName) {
           // keyName ="Dashboard";
@@ -187,7 +184,8 @@ sap.ui.define([
       // const lastKey =this._getNavModelData("/current_item");
       // const lastKey =this.CURRENT_ITEM;
       const oItemKey = oItem.getKey();
-      BusyIndicator.show(200);
+      const router_path =oItem.data('router_path');
+      this.router.navTo(router_path);
       // setting breadcrumb ----
       // const breadcrumb_obj ={
       //   "name":oItem.getText(),
@@ -198,7 +196,7 @@ sap.ui.define([
       // };
       // breadcrumbAr.push(breadcrumb_obj);
       // this.last_view_code =idToLink[oItemKey];
-      this._loadView(oItemKey);
+      // this._loadView(oItemKey);
 
           // this._setNavModelData("/current_item",oItemKey);
      
@@ -271,7 +269,8 @@ sap.ui.define([
       const total_page =page_list.length;
       if(total_page>CONFIG_PAGESIZE){
         MessageToast.show(`total page size > ${CONFIG_PAGESIZE} \n removed last one`);
-        container.removePage(page_list.at(-1));
+        container.removePage(page_list.at(0));
+        // debugger;
       }
       // this._setNavigationList()
     },
@@ -280,6 +279,7 @@ sap.ui.define([
         if(viewName=="Territories"){
         // do this because region and territories are in same section.
         viewName ="Regions" }
+        return viewName;
     } 
   });
 });

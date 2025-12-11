@@ -59,7 +59,7 @@ controllerName="bd.businessportal.controller.Products"
         </uxap:headerTitle>
 
         <uxap:headerContent>
-            <!-- entet filter bar -->
+            <!-- filter bar -->
              <filterbar:FilterBar id="filterbar_proudct" useToolbar="false" showFilterConfiguration="false" showRestoreButton="false" showGoOnFB="true" showClearOnFB="true" 
                 search=".filterSearch" clear=".filterClear"
              >
@@ -67,28 +67,28 @@ controllerName="bd.businessportal.controller.Products"
                         <filterbar:FilterGroupItem  name="f_product_name" label="Product Name" groupName="q"  visibleInFilterBar="true">
                             <filterbar:control>
                                 <ComboBox id="ProductID" ariaDescribedBy="filter based on product name" filterSecondaryValues="true" showClearIcon="true"
-                                    items="{path:'/results',suspended:false,sorter:[{path:'ProductName'}]}" change=".selectionChange" >
+                                    items="{path:'MD_filter>/Products',sorter:[{path:'MD_filter>ProductName'}],parameters :{$$groupId : 'MD_filter'}}" change=".selectionChange"  >
                                     <items>
-                                        <core:ListItem key="{ProductID}" text="{ProductName}" additionalText="{ProductID}"/>
+                                        <core:ListItem key="{path:'MD_filter>ProductID',targetType:'any'}" text="{MD_filter>ProductName}" additionalText="{path:'MD_filter>ProductID',targetType:'any'}"/>
                                     </items>
                                 </ComboBox>
                                 <!-- <SearchField placeholder="search" showSearchButton="true"/> -->
                             </filterbar:control>
                         </filterbar:FilterGroupItem>
                         <!-- 2 -->
-                        <filterbar:FilterGroupItem  name="product_filter" label="Supplier Name" groupName="q"  visibleInFilterBar="true" >
-                            <filterbar:control>
+                        <!-- <filterbar:FilterGroupItem  name="product_filter" label="Supplier Name" groupName="q"  visibleInFilterBar="true" >
+                            <filterbar:control> -->
                                <!-- <Input showValueHelp="true" showSuggestion="false" type="Text" showClearIcon="false"/> -->
-                                  <ComboBox id="SupplierID" ariaDescribedBy="filter based on supplier name" filterSecondaryValues="true" 
+                                  <!-- <ComboBox id="SupplierID" ariaDescribedBy="filter based on supplier name" filterSecondaryValues="true" 
                                     items="{path:'supl>/results',suspended:false,sorter:[{path:'CompanyName'}]}" change=".selectionChange" showClearIcon="true">
                                     <items>
                                         <core:ListItem key="{supl>SupplierID}" text="{supl>CompanyName}" additionalText="{supl>SupplierID}"/>
                                     </items>
                                 </ComboBox>
                             </filterbar:control>
-                        </filterbar:FilterGroupItem>
+                        </filterbar:FilterGroupItem> -->
                         <!-- 3 -->
-                        <filterbar:FilterGroupItem  name="f_product_availability" label="Availability" groupName="q"  visibleInFilterBar="true">
+                        <!-- <filterbar:FilterGroupItem  name="f_product_availability" label="Availability" groupName="q"  visibleInFilterBar="true">
                             <filterbar:control>
                                 <ComboBox id="Discontinued" ariaDescribedBy="filter based on products are available or not" filterSecondaryValues="false" showClearIcon="true">
                                     <items>
@@ -97,15 +97,15 @@ controllerName="bd.businessportal.controller.Products"
                                     </items>
                                 </ComboBox>
                             </filterbar:control>
-                        </filterbar:FilterGroupItem>
+                        </filterbar:FilterGroupItem> -->
                          <!-- 3 end -->
 
                          <!-- 4 -->
-                        <filterbar:FilterGroupItem  name="f_product_price" label="Price" groupName="q"  visibleInFilterBar="true">
+                        <!-- <filterbar:FilterGroupItem  name="f_product_price" label="Price" groupName="q"  visibleInFilterBar="true">
                             <filterbar:control>
                                 <Input id="f_product_price" showClearIcon="true" editable="true" showValueHelp="true" showSuggestion="false" type="Text" placeholder="" valueHelpRequest=".valueHelpRequest"/>
                             </filterbar:control>
-                        </filterbar:FilterGroupItem>
+                        </filterbar:FilterGroupItem> -->
                          <!-- 4 end -->
                     </filterbar:filterGroupItems>
              </filterbar:FilterBar>
@@ -132,7 +132,7 @@ controllerName="bd.businessportal.controller.Products"
                                             growing="true"
                                             growingScrollToLoad="true"
                                             growingThreshold="15"
-                                            items="{/results}"
+                                            items="{MD>/Products}"
                                             core:require="{Formatter:'bd/businessportal/model/Formatter'}"
                                         >
                                         
@@ -178,16 +178,16 @@ controllerName="bd.businessportal.controller.Products"
 
                                             <ColumnListItem type="Navigation" press=".overViewPage">
                                                 <cells>
-                                                        <ObjectIdentifier title="{ProductId}" visible="false"></ObjectIdentifier>
-                                                        <ObjectIdentifier  text="{ProductName}({Category/CategoryName})"></ObjectIdentifier>
-                                                        <Text text="{Category/Description}" wrapping="true" maxLines="3"></Text>
-                                                        <Text text="{Supplier/CompanyName}({Supplier/City})" wrapping="true" maxLines="3"/>
+                                                        <ObjectIdentifier title="{MD>ID}" visible="false"></ObjectIdentifier>
+                                                        <ObjectIdentifier  text="{MD>ProductName}({MD>category/CategoryName})"></ObjectIdentifier>
+                                                        <Text text="{MD>category/Description}" wrapping="true" maxLines="3"></Text>
+                                                        <Text text="{MD>supplier/CompanyName}({MD>supplier/City})" wrapping="true" maxLines="3"/>
                                                         <!-- <ObjectStatus reactiveAreaMode="Overlay" class="sapMObjectStatusLongText" icon="sap-icon://product" text="{QuantityPerUnit}" state="Success"/> -->
-                                                        <ObjectNumber number="{path:'UnitsInStock',type:'sap.ui.model.type.Integer'}" />
-                                                        <ObjectNumber  number="{parts:[{path:'UnitPrice'}],type:'sap.ui.model.type.Currency',formatter:'Formatter.currency'}"/>
+                                                        <ObjectNumber number="{path:'MD>UnitsInStock',type:'sap.ui.model.type.Integer',targetType:'any'}" />
+                                                        <ObjectNumber  number="{parts:[{path:'MD>UnitPrice'}],type:'sap.ui.model.type.Currency',targetType:'any',formatter:'Formatter.currency'}"/>
                                                         
-                                                        <ObjectStatus class="sapMObjectStatusLarge" text="" icon="{path:'Discontinued',formatter:'Formatter.pContinued_'}" 
-                                                        state="{path:'Discontinued',formatter:'Formatter.pContinued_state'}"/>
+                                                        <ObjectStatus class="sapMObjectStatusLarge" text="" icon="{path:'MD>Discontinued',formatter:'Formatter.pContinued_',targetType:'any'}" 
+                                                        state="{path:'MD>Discontinued',formatter:'Formatter.pContinued_state',targetType:'any'}"/>
                                                         <!-- <Button class="sapUiTinyMargin" icon="sap-icon://detail-more" press=".detailMore"></Button> -->
                                                 </cells>
                                             </ColumnListItem>

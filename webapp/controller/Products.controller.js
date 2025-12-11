@@ -65,46 +65,60 @@ sap.ui.define([
                 onBeforeShow: function (obj) {
                     // BusyIndicator.hide();
                     this.component._buttonExpandLogic(1, expandFlag);
-                    setModel.configureModel.call(this, "Products.json");
-                    // console.log(obj.data);
-                    this.oNavContainer.setBusy();
-
-
+                    // setModel.configureModel.call(this, "Products.json");
+                    // // console.log(obj.data);
+                    // this.oNavContainer.setBusy();
                 }.bind(this)
             })
 
-            setLocalModel(this, {
-                fileName: "Suppliers.json",
-                modelName: "supl"
-            }).then((flag) => {
-                if (flag == 207) console.log('already not exists');
-                else console.log("exists fast load");
-            })
+            // setLocalModel(this, {
+            //     fileName: "Suppliers.json",
+            //     modelName: "supl"
+            // }).then((flag) => {
+            //     if (flag == 207) console.log('already not exists');
+            //     else console.log("exists fast load");
+            // })
+             // odataV4 instace parameter set
+             this.component.modelodataV4_instace._changeContextandId(this,"product_page");
+            //  model for drodown lists
+            // create new model.
+            const MD_filter_model =new sap.ui.model.odata.v4.ODataModel({
+                    annotationURI:[],
+                    autoExpandSelect:true,
+                    earlyRequests:false,
+                    groupId:'$auto',
+                    sharedRequests:true,
+                    operationMode:sap.ui.model.odata.OperationMode.Server,
+                    serviceUrl:'/odata/v4/masterdata/',
+                    groupProperties: {
+                        'MD_filter':{"submit":sap.ui.model.odata.v4.SubmitMode.API}
+                    }
+            });
+            this.getView().setModel(MD_filter_model,"MD_filter");
+
         },
-        navButtonPressed:function(oEvent){
-            this.root_element.getController().backButton(oEvent);
+        onAfterRendering(){
+            console.log("on after rendering");
+            const filter_model =this.getView().getModel("MD_filter");
+            filter_model.submitBatch("MD_filter");
+
         },
+        // navButtonPressed:function(oEvent){
+        //     this.root_element.getController().backButton(oEvent);
+        // },
         // onBeforeRendering:function(){
         //     console.log("Product rendered");
         //     const list =this.root_element.getController().getBreadcrumbAr();
         //     Breadcrumb.createDynamicBreadcrumb(this,"p_breadcrumb",list);
         // },
         overViewPage: function (oEvent) {
-            this.oNavContainer.setBusy(true);
-            var oContext_path = oEvent.getSource().getBindingContext().getPath();
-            // console.log(oContext);
-            // const path =oContext.substr("/results/".length);
-            // console.log(path);
-            // const id =oContext.getProperty("ProductID");
-            const model = this.component.getModel("nav");
-            model.setProperty("/idOfBindElement", oContext_path);
-            this.root_element.getController()._loadView("ProductsOverview");
-            // this.router.navTo("p_overview",{
-            //   query:{
-            //     "id":encodeURIComponent(id),
-            //     "index":parseInt(index)
-            //   }
-            // })
+            // console.log("nav pressed");
+            var object_id = oEvent.getSource().getBindingContext("MD").getProperty("ID")
+            if(!object_id) {  
+                throw new Error("Error id is undefined");
+            }
+            const router =this.component.getRouter();
+            router.navTo("productOverview",{PID:object_id});
         },
         filterSearch: function (oEvent) {
             const configuration = {
@@ -185,7 +199,10 @@ sap.ui.define([
         //     oBinding.filter(aFilters);
         //     return 1;
 
-        //   }
+        //   },
+        selectionChange:function(oEvent){
+            debugger;
+        },
         filterClear: function (oEvent) {
             // console.log("clear pressed");
             if (!this.genericFilter) {

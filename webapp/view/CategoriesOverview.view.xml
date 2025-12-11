@@ -16,7 +16,7 @@
     class="sapUiResponsiveMargin--content 
             sapUiResponsiveContentPadding"
     >
-    <Panel id="category_overview_panel" expandable="false" stickyHeader="false" headerText="Category {CategoryName}" width="auto" >
+    <Panel id="category_overview_panel" expandable="false" stickyHeader="false" headerText="Category {MD>CategoryName}" width="auto" >
         <!-- <headerToolbar>
             <OverflowToolbar design="Transparent">
                 <Title text="Territory Data"/>
@@ -48,10 +48,10 @@
                 </form:title> -->
                     <form:content>
                         <Label text="Name" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                        <Text id="category_overview_description" text="{CategoryName}" class="sapUiTinyMarginBottom"/>
+                        <Text id="category_overview_description" text="{MD>CategoryName}" class="sapUiTinyMarginBottom"/>
 
                          <Label text="Description" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                        <Text text="{Description}" class="sapUiTinyMarginBottom"/>
+                        <Text text="{MD>Description}" class="sapUiTinyMarginBottom"/>
                     </form:content>
                 </form:SimpleForm>
             </HBox>
@@ -60,7 +60,7 @@
                 autoPopinMode="true"
                 headerText="Products"
                 busyIndicatorDelay="100"
-                items="{Products/results}"
+                items="{MD>products}"
             >
                 	<infoToolbar>
 					<OverflowToolbar>
@@ -69,8 +69,8 @@
                 	</infoToolbar>
 
                     <columns>
-                        <Column>
-                            <Label displayOnly="true" text="Product ID" textAlign="Right" />
+                        <Column visible="false">
+                            <Label visible="true" displayOnly="true" text="Product ID" textAlign="Right" />
                         </Column>
 
                         <Column>
@@ -91,13 +91,13 @@
                     </columns>
 
                     <items>
-                        <ColumnListItem type="Navigation" press=".detailPress">
+                        <ColumnListItem type="Navigation" press=".pageOverview">
                                                 <cells>
-                                                        <ObjectIdentifier title="{ProductID}"/>
-                                                        <Text  text="{ProductName}" wrapping="false"/>
-                                                        <ObjectNumber number="{path:'UnitsInStock',type:'sap.ui.model.type.Integer'}" />
-                                                        <ObjectNumber  number="{parts:[{path:'UnitPrice'}],type:'sap.ui.model.type.Currency',formatter:'.formatter.currency'}"/>
-                                                        <ObjectStatus text="{=${Discontinued}?'Not Available':'Available'}" icon="{path:'Discontinued',formatter:'.formatter.pContinued_'}" 
+                                                        <ObjectIdentifier title="{MD>ID}" />
+                                                        <Text  text="{MD>ProductName}" wrapping="false"/>
+                                                        <ObjectNumber number="{path:'MD>UnitsInStock',type:'sap.ui.model.type.Integer'}" />
+                                                        <ObjectNumber  number="{parts:[{path:'MD>UnitPrice'}],type:'sap.ui.model.type.Currency',formatter:'.formatter.currency'}"/>
+                                                        <ObjectStatus text="{=%{MD>Discontinued}?'Not Available':'Available'}" icon="{path:'MD>Discontinued',formatter:'.formatter.pContinued_',targetType:'any'}" 
                                                         />
                                                         <!-- <Button class="sapUiTinyMargin" icon="sap-icon://detail-more" press=".detailMore"></Button> -->
                                                 </cells>

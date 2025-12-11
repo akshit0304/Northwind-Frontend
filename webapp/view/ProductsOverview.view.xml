@@ -14,7 +14,7 @@
                 <snappedHeading>
                     <m:Toolbar  style="Clear">
                         <m:Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
-                        <m:Title class="sapUiNoMarginBegin"  text="{ProductName}" wrapping="false" titleStyle="H5" />
+                        <m:Title class="sapUiNoMarginBegin"  text="{MD>ProductName}" wrapping="false" titleStyle="H5" />
                     </m:Toolbar>
                 </snappedHeading>
 
@@ -23,18 +23,18 @@
                         <m:VBox>
                             <m:Toolbar  style="Clear">
                                 <m:Button icon="sap-icon://nav-back" accessibleRole="Link" ariaDescribedBy="back button" press=".navButtonPressed"/>
-                                <m:Title class="sapUiNoMarginBegin"  text="{ProductName}" wrapping="false" titleStyle="H5" />
+                                <m:Title class="sapUiNoMarginBegin"  text="{MD>ProductName}" wrapping="false" titleStyle="H5" />
                             </m:Toolbar>
                         </m:VBox>
                     </m:Toolbar>
                 </expandedHeading>
                 <!-- 123 -->
                 <snappedContent>
-                    <m:Text class="sapUiMediumMarginBegin" text="{Category/CategoryName}" wrapping="false"></m:Text>
+                    <m:Text class="sapUiMediumMarginBegin" text="{MD>category/CategoryName}" wrapping="false"></m:Text>
                 </snappedContent>
 
                 <expandedContent>
-                    <m:Text class="sapUiMediumMarginBegin" text="{Category/CategoryName}" wrapping="false"></m:Text>
+                    <m:Text class="sapUiMediumMarginBegin" text="{MD>category/CategoryName}" wrapping="false"></m:Text>
                 </expandedContent>
                 <!-- <actions>
                     <m:Toolbar style="Clear">
@@ -59,12 +59,12 @@
                         <m:VBox gap="1rem">
                             <m:HBox alignItems="Start">
                                 <m:Label vAlign="Middle" showColon="true" text="Category" labelFor="pcategory" displayOnly="true" wrapping="false"/>
-                                <m:Text text="{Category/CategoryName}" id="pcategory"></m:Text>
+                                <m:Text text="{MD>category/CategoryName}" id="pcategory"></m:Text>
                             </m:HBox>
 
                             <m:HBox alignItems="Start">
                                 <m:Label vAlign="Middle" showColon="true" text="Supplier" labelFor="psupplier" displayOnly="true" wrapping="false"></m:Label>
-                                <m:Text text="{Supplier/CompanyName}" id="psupplier"></m:Text>
+                                <m:Text text="{MD>supplier/CompanyName}" id="psupplier"></m:Text>
                             </m:HBox>
                             <!-- description ended -->
                         </m:VBox>
@@ -74,7 +74,7 @@
                             <m:FlexItemData alignSelf="Center" baseSize="auto" maxWidth="35%"></m:FlexItemData>
                         </m:layoutData>
                         <m:Label text="Product Description" displayOnly="true" labelFor="description" width="100%" />
-                        <m:Text wrapping="true" text="{Category/Description}" id="description"/>
+                        <m:Text wrapping="true" text="{MD>category/Description}" id="description"/>
                     </m:VBox>
 
                     <!-- avialability -->
@@ -84,7 +84,7 @@
                         </m:layoutData>
                         <m:VBox gap="1rem">
                             <m:Label text="Availability" displayOnly="true" labelFor="description" width="100%" />
-                            <m:ObjectStatus text="{path:'Discontinued',formatter:'.formatter.pContinued_text'}" icon="{path:'Discontinued',formatter:'.formatter.pContinued_'}" state="{path:'Discontinued',formatter:'.formatter.pContinued_state'}"/>
+                            <m:ObjectStatus text="{path:'MD>Discontinued',formatter:'.formatter.pContinued_text',targetType:'any'}" icon="{path:'MD>Discontinued',targetType:'any',formatter:'.formatter.pContinued_'}" state="{path:'MD>Discontinued',targetType:'any',formatter:'.formatter.pContinued_state'}"/>
                         </m:VBox>
                     </m:VBox>
 
@@ -94,7 +94,7 @@
                             <m:FlexItemData alignSelf="Center"/>
                         </m:layoutData>
                         <m:Label text="Price" displayOnly="true" labelFor="description" width="100%" />
-                        <m:ObjectNumber number="{parts:[{path:'UnitPrice'}],type:'sap.ui.model.type.Currency',formatter:'.formatter.currency'}" state="None"></m:ObjectNumber>
+                        <m:ObjectNumber number="{parts:[{path:'MD>UnitPrice'}],type:'sap.ui.model.type.Currency',formatter:'.formatter.currency'}" state="None"></m:ObjectNumber>
                     </m:VBox>
                 </m:FlexBox>
                 <!-- <m:HBox width="2.5rem" wrap="NoWrap"></m:HBox> -->
@@ -102,10 +102,11 @@
         </headerContent>
         <!-- main content -->
         <sections>
+        <!-- section-1 -->
             <ObjectPageSection showTitle="false" titleUppercase="false" title="Product Info" anchorBarButtonColor="Tile">
                 <!-- <customAnchorBarButton>
-            <m:Button text="Product information" type="Attention"/>
-        </customAnchorBarButton> -->
+                    <m:Button text="Product information" type="Attention"/>
+                </customAnchorBarButton> -->
                 <subSections>
                     <ObjectPageSubSection title="Product Info" showTitle="false" titleUppercase="false">
                         <blocks>
@@ -127,38 +128,38 @@
                             <form:content>
                                 <!-- <core:Title emphasized="false"  text=""/> -->
                                 <m:Label text="Name" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true" textAlign="Left" />
-                                 <m:Text text="{ProductName}" class="sapUiTinyMarginBottom" wrapping="false"/>
+                                 <m:Text text="{MD>ProductName}" class="sapUiTinyMarginBottom" wrapping="false"/>
 
                                  <m:Label text="Description" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{Category/Description}" class="sapUiTinyMarginBottom"/>
+                                 <m:Text text="{MD>category/Description}" class="sapUiTinyMarginBottom"/>
 
                                  <m:Label text="ID" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{ProductID}" class="sapUiTinyMarginBottom"/>
+                                 <m:Text text="{MD>ID}" class="sapUiTinyMarginBottom"/>
 
                                  <m:Label text="Category" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{Category/CategoryName}" class="sapUiTinyMarginBottom"/>
+                                 <m:Text text="{MD>category/CategoryName}" class="sapUiTinyMarginBottom"/>
 
                                  <m:Label text="Quantity per Unit" showColon="true" vAlign="Middle" displayOnly="true" wrapping="true" />
-                                 <m:ObjectStatus text="{QuantityPerUnit}" class="sapUiTinyMarginBottom"  state="Information"/>
+                                 <m:ObjectStatus text="{MD>QuantityPerUnit}" class="sapUiTinyMarginBottom"  state="Information"/>
 
                                 <m:Label text="Price" showColon="true" vAlign="Middle" displayOnly="true"  />
-                                <m:ObjectNumber class="sapUiTinyMarginBottom" number="{parts:[{path:'UnitPrice'}],type:'sap.ui.model.type.Currency',formatter:'.formatter.currency'}" state="None"></m:ObjectNumber>
+                                <m:ObjectNumber class="sapUiTinyMarginBottom" number="{parts:[{path:'MD>UnitPrice'}],type:'sap.ui.model.type.Currency',formatter:'.formatter.currency'}" state="None"></m:ObjectNumber>
                             </form:content>
                             <!-- orders parameters -->
                              <form:content>
                                 
                                 <!-- <core:Title emphasized="false"  text=""/> -->
                                 <m:Label text="Units in stock" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{UnitsInStock}" class="sapUiTinyMarginBottom" />
+                                 <m:Text text="{MD>UnitsInStock}" class="sapUiTinyMarginBottom" />
 
                                  <m:Label text="Units on order" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{UnitsOnOrder}" class="sapUiTinyMarginBottom"/>
+                                 <m:Text text="{MD>UnitsOnOrder}" class="sapUiTinyMarginBottom"/>
 
                                  <m:Label text="Reorder level" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{ReorderLevel}" class="sapUiTinyMarginBottom"/>
+                                 <m:Text text="{MD>ReorderLevel}" class="sapUiTinyMarginBottom"/>
 
                                  <m:Label text="Product status" showColon="true" vAlign="Middle" displayOnly="true" wrapping="true" />
-                                 <m:ObjectStatus icon="{path:'Discontinued',formatter:'.formatter.pContinued_'}" class="sapUiTinyMarginBottom"/>
+                                 <m:ObjectStatus icon="{path:'MD>Discontinued',formatter:'.formatter.pContinued_',targetType:'any'}" class="sapUiTinyMarginBottom"/>
 
                             </form:content>
                            </form:SimpleForm>
@@ -190,19 +191,19 @@
                             <form:content>
                                 <core:Title emphasized="false"  text="Company Detail"/>
                                 <m:Label text="ID" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{Supplier/SupplierID}" class="sapUiTinyMarginBottom"/>
+                                 <m:Text text="{MD>supplier/ID}" class="sapUiTinyMarginBottom" emptyIndicatorMode="On"/>
 
                                 <m:Label text="Supplier" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{Supplier/CompanyName}" class="sapUiTinyMarginBottom"/>
+                                 <m:Text text="{MD>supplier/CompanyName}" class="sapUiTinyMarginBottom"/>
 
                                  <m:Label text="Phone" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{Supplier/Phone}" class="sapUiTinyMarginBottom"/>
+                                 <m:Text text="{MD>supplier/Phone}" class="sapUiTinyMarginBottom"/>
 
                                  <m:Label text="Website" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{Supplier/HomePage}" class="sapUiTinyMarginBottom" emptyIndicatorMode="On"/>
+                                 <m:Text text="{MD>supplier/Website}" class="sapUiTinyMarginBottom" emptyIndicatorMode="On"/>
 
                                  <m:Label text="Fax" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{Supplier/Fax}" class="sapUiTinyMarginBottom" emptyIndicatorMode="On"/>
+                                 <m:Text text="{MD>supplier/Fax}" class="sapUiTinyMarginBottom" emptyIndicatorMode="On"/>
                                 </form:content>
 
                                  <!-- contact person -->
@@ -210,19 +211,19 @@
 
                                       <core:Title emphasized="false"  text="Contact Person"/>
                                       <m:Label text="Representive Name" showColon="true" vAlign="Middle" wrapping="true" displayOnly="true"  />
-                                      <m:Text text="{Supplier/ContactName}" class="sapUiTinyMarginBottom"/>
+                                      <m:Text text="{MD>supplier/ContactName}" class="sapUiTinyMarginBottom"/>
                                       
                                       <m:Label text="Title" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                      <m:Text text="{Supplier/ContactTitle}" class="sapUiTinyMarginBottom"/>
+                                      <m:Text text="{MD>supplier/ContactTitle}" class="sapUiTinyMarginBottom"/>
                                       
                                       <m:Label text="Address" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                      <m:Text text="{Supplier/Address}" class="sapUiTinyMarginBottom"/>
+                                      <m:Text text="{MD>supplier/Address}" class="sapUiTinyMarginBottom"/>
 
                                       <m:Label text="City" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{Supplier/City} ({Supplier/Country})" class="sapUiTinyMarginBottom"/>
+                                 <m:Text text="{MD>supplier/City} ({MD>supplier/Country})" class="sapUiTinyMarginBottom"/>
 
                                  <m:Label text="Postal Code" showColon="true" vAlign="Middle" wrapping="false" displayOnly="true"  />
-                                 <m:Text text="{Supplier/PostalCode}" class="sapUiTinyMarginBottom"/>
+                                 <m:Text text="{MD>supplier/PostalCode}" class="sapUiTinyMarginBottom"/>
                                     
                             </form:content>
                             </form:SimpleForm>
@@ -233,7 +234,7 @@
             <!-- section 3 -->
               <ObjectPageSection titleUppercase="false" title="" anchorBarButtonColor="Default" showTitle="false">
                 <subSections>
-                    <ObjectPageSubSection showTitle="false" title="Related Orders">
+                    <ObjectPageSubSection showTitle="false" title="Related Orders" id="orders">
                         <blocks>
                             <m:Table 
                                             class="sapUxAPObjectPageSubSectionAlignContent"
@@ -244,20 +245,18 @@
                                             inset="false"
                                             enableBusyIndicator="true"
                                             busyIndicatorDelay="50"
-                                            items="{orders>/results}"
+                                            alternateRowColors="true"
+                                            growing="true"
+                                            growingThreshold="10"
+                                            items="{MD>orders}"
                                         >
-                                        
                                         <m:columns>
-                                            <m:Column >
+                                            <m:Column visible="true">
                                                 <m:Text wrapping="false" text="Order ID"/>
                                             </m:Column>
                                             
                                             <m:Column >
                                                 <m:Text  text="Quantity"/>
-                                            </m:Column>
-
-                                            <m:Column >
-                                                <m:Text  text="Discount"/>
                                             </m:Column>
 
                                             <m:Column >
@@ -271,13 +270,13 @@
                                         </m:columns>
                                         <m:items>
 
-                                            <m:ColumnListItem type="Inactive">
+                                            <m:ColumnListItem type="Inactive" press=".pageOverview">
                                                 <m:cells>
-                                                    <m:Text text="{orders>OrderID}" wrapping="false" />
-                                                    <m:Text text="{orders>Quantity}"  />
-                                                    <m:ObjectNumber number="{:= %{orders>Discount}*100}" unit="%" state="{path:'orders>Discount',formatter:'.formatter.employeeStatus'}" />
-                                                    <m:Text text="{path:'orders>Order/OrderDate',formatter:'.formatter.parseDate'}"  />
-                                                    <m:Text text="{orders>Order/ShipCity} ({orders>Order/ShipCountry})"  />
+                                                    <m:Text text="{path:'MD>OrderID',targetType:'any',formatter:'.formatter.convertStrInt'}" wrapping="false" />
+                                                    <m:Text text="{MD>Quantity}"  />
+                                                    <!-- <m:ObjectNumber number="{= %{MD>Discount}*100}" unit="%" state="{path:'MD>Discount',formatter:'.formatter.employeeStatus'}" /> -->
+                                                    <!-- <m:Text text="{path:'MD>OrderDate'}"  />
+                                                    <m:Text text="{MD>ShipCity} ({MD>ShipCountry})"  /> -->
                                                 </m:cells>
                                             </m:ColumnListItem>
                                         </m:items>

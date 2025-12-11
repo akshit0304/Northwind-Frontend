@@ -2,8 +2,9 @@ sap.ui.define([
   "sap/ui/core/UIComponent",
   "bd/businessportal/model/models",
   "sap/ui/core/routing/History",
-  "sap/ui/Device"
-], (UIComponent, models, History, Device) => {
+  "sap/ui/Device",
+  "bd/businessportal/utils/OdataV4"
+], (UIComponent, models, History, Device,OdataV4) => {
   "use strict";
 
   return UIComponent.extend("bd.businessportal.Component", {
@@ -27,19 +28,29 @@ sap.ui.define([
       // enable routing
       this.getRouter().initialize();
       this.getRouter().attachRouteMatched({},(oEvent)=>{
+        // fetch view Name
         current_item =oEvent.getParameter("view").getViewName().split('.').at(-1);
-        // if(this.byId("app-"))
-        debugger;
-        this.getEventBus().publish("aside","asideSet",{
-          viewName:current_item
-        })
+        this.byId("App").getController()._setNavigationList('sideNavigation',current_item);
+        this.byId("App").byId('navContainer')?.setBusy();
         // side panel dynamic selection ---
       },this);
+      //=== before route matched
+    //   var beforeRouteMatch = function(){
+      this.getRouter().attachBeforeRouteMatched({},(oEvent)=>{
+        console.log("before route activated");
+        this.byId("App").byId('navContainer')?.setBusy(true);        // side panel dynamic selection ---
+        
+      },this);
+    // };
+      // ====
       this.abord_request_flag =0;
       this.getContentDensityClass();
       this.loaded_model =undefined;
       // this variable is use for second navigation eg: category->categorydetails->productdetails (set boolean value if true then use /idOfBindElementSecond else use /idOfBindElement present in nav model)
       this.second_binding=false;
+
+
+      this.modelodataV4_instace =OdataV4.constructor(this,this.getModel("MD"),'null');
     },
     getContentDensityClass: function () {
       if (!this._sContentDensityClass) {

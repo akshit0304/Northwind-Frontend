@@ -44,6 +44,7 @@
     }
   },
   "sap.ui5": {
+    "handleValidation": true,
     "flexEnabled": false,
     "dependencies": {
       "minUI5Version": "1.138.1",
@@ -59,8 +60,11 @@
     "models": {
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
+
         "settings": {
-          "bundleName": "bd.businessportal.i18n.i18n"
+          "bundleName": "bd.businessportal.i18n.i18n",
+          "supportedLocales": ["","en"],
+          "fallbackLocale": ""
         }
       },
       "nav":{
@@ -84,7 +88,10 @@
           "operationMode": "Server",
           "autoExpandSelect": true,
           "earlyRequests": true,
-          "groupId":"$direct"
+          "groupId":"$direct",
+          "groupProperties":{
+            "G1":{"submit":"API"}
+          }
         }
       },
       "Mkpi":{
@@ -114,11 +121,53 @@
         "async": true
       },
       "routes": [
-        {
-          "name": "RouteView1",
+         {
+          "name": "category_init",
           "pattern": "",
           "target": [
-            "TargetView1"
+            "Category"
+          ]
+        },
+        {
+          "name": "category",
+          "pattern": "category",
+          "target": [
+            "Category"
+          ]
+        },
+         {
+          "name": "categoryOverview",
+          "pattern": "category/{CID}",
+          "target": [
+            "CategoryOverview"
+          ]
+        },
+         {
+          "name": "product",
+          "pattern": "product",
+          "target": [
+            "Product"
+          ]
+        },
+         {
+          "name": "productOverview",
+          "pattern": "product/{PID}",
+          "target": [
+            "ProductOverview"
+          ]
+        },
+         {
+          "name": "order",
+          "pattern": "order",
+          "target": [
+            "Order"
+          ]
+        },
+         {
+          "name": "orderOverview",
+          "pattern": "order/{OID}",
+          "target": [
+            "OrderOverview"
           ]
         },
         {
@@ -130,15 +179,30 @@
         }
       ],
       "targets": {
-
-        "TargetView1": {
-          "id": "App--Dashboard",
+        "Category": {
+          "id": "category",
           "name": "Categories"
         },
-        "T_o_manager": {
-          "id": "shellPage",
-          "name": "ShellPage",
-          "level": 1
+        "CategoryOverview": {
+          "id": "categoryOverview",
+          "name": "CategoriesOverview"
+        },
+
+         "Product": {
+          "id": "product",
+          "name": "Products"
+        },
+        "ProductOverview": {
+          "id": "productOverview",
+          "name": "ProductsOverview"
+        },
+        "Order": {
+          "id": "order",
+          "name": "Orders"
+        },
+        "OrderOverview": {
+          "id": "orderOverview",
+          "name": "OrdersOverview"
         }
       }
     },

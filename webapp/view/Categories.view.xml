@@ -33,12 +33,12 @@
         <f:content>
              <Panel expandable="false" stickyHeader="false" width="auto">
 
-            <List mode="None" includeItemInSelection="false"  id="table_category" rememberSelections="true"
+            <List mode="None" includeItemInSelection="false"  id="table_category" rememberSelections="true" busy="true"
                 itemPress=".overViewPage" items="{
                     path:'MD>/Categories',
                     suspended: false,
                     parameters: {
-                                $$groupId: '$auto'
+                                $$groupId: 'G1'
                             },
                     sorter:[{path:'CategoryName'}]
                 }">
@@ -46,7 +46,7 @@
                     fieldGroupIds="group_category"
                     title="{MD>CategoryName}"
                     type="Navigation"
-                    number="99"
+                    number=""
                     numberUnit="Products">
                     <ObjectAttribute text="Category ID : {MD>ID}" active="false" reactiveAreaMode="Overlay"/>
                     <ObjectAttribute text="{path:'MD>Description',type:'sap.ui.model.type.String'}" active="false" />
@@ -61,7 +61,7 @@
 
                 <Button  text="select all" id="selectall_category" type="Transparent"  press="._footerCombinedButtons"></Button>
                 <Button text="delete" type="Reject" id="deleteItems_category" enabled="false"  press="._footerCombinedButtons"></Button>
-                <Button class="sapUiSmallMarginEnd" text="cancel" type="Emphasized" press="._footerCombinedButtons"></Button>
+                <Button id="cancel_category" class="sapUiSmallMarginEnd" text="cancel" type="Emphasized" press="._footerCombinedButtons"></Button>
             </OverflowToolbar>
         </f:footer>
     </f:DynamicPage>

@@ -38,15 +38,12 @@
                     </form:SimpleForm>
                 </VBox>   
             </content>
+            <endButton>
+                <Button type="Emphasized" text="ADD" press=".submit_category"   accessibleRole="Link" ariaLabelledBy="submit"/>
+            </endButton>
 
-            <footer>
-                <Toolbar style="Clear" class="sapUiMediumMarginBottom">
-                    <ToolbarSpacer ></ToolbarSpacer>
-                     <Button type="Negative" text="Cancel" press=".dialogClose"    ariaLabelledBy="cancel" />
-                     <Button type="Emphasized" text="ADD" press=".submit_category"   accessibleRole="Link" ariaLabelledBy="submit"/>
-                    
-                </Toolbar>
-            </footer>
-            
+            <beginButton>
+                <Button type="Negative" text="Cancel" id="cancel_btn" ariaLabelledBy="cancel" />
+            </beginButton>
             </Dialog>               
 </core:FragmentDefinition>

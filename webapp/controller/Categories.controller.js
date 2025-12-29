@@ -4,6 +4,9 @@ sap.ui.define([
     "sap/m/MessageToast",
     "sap/ui/model/json/JSONModel",
     "bd/businessportal/utils_v2/oDataRequestComp",
+    "bd/businessportal/utils_v2/delete_module",
+    "bd/businessportal/utils_v2/edit_module",
+    "bd/businessportal/utils_v2/table_search_module",
     "bd/businessportal/utils_v2/formValidation",
 
 ], (Controller,
@@ -11,6 +14,9 @@ sap.ui.define([
     MessageToast,
     JSONModel,
     oDataRequestComp,
+    delete_module,
+    edit_module,
+    search_module,
     formValidation
 ) => {
     "use strict"
@@ -47,6 +53,30 @@ sap.ui.define([
 
         },
         onAfterRendering() {
+            // submit batch request for group G1
+            // debugger;
+            // this.table.getBinding('items').requestContexts(0,100,'G1').then((a)=>{console.log(a)});
+            this.odataModel.submitBatch('G1').then(()=>{
+                this.table.setBusy(false);
+            })
+            // set for delete module in utils_v2 version
+            const cons_obj ={};
+            cons_obj.trash_btn =this.byId('btn_del_category');
+            cons_obj.main_page =this.main_page;
+            cons_obj.table_control =this.table;
+            const footer ={};
+            footer.btn_select =this.byId('selectall_category');
+            footer.btn_cancel =this.byId('cancel_category');
+            footer.btn_delete =this.byId('deleteItems_category');
+            cons_obj.footer_control =footer;
+            this.delete_module_obj =new delete_module(cons_obj);
+            this.table.attachSelectionChange({},this.listSelectionChange, this);
+
+            // edit object initialized
+            this.edit_module_obj =new edit_module('nullURL','PUT');
+            // 👨🏽‍🤝‍👨🏻👨🏽‍🤝‍👨🏻 this method automatically set this.url variable in object itself.
+            const url =this.edit_module_obj.urlList('categories');
+            // 🔗🔗🔗
             // console.log("category page after rendering");
             // json model for form data
             // this.local_data =new JSONModel({"categoryName":null,"categoryDescription":null},true);
@@ -69,7 +99,10 @@ sap.ui.define([
                 this.add_category_frag.then((oDialog)=>{
                     this.byId("dialog_category_close").attachPress({},(oEvent)=>{
                         oDialog.close();
-                         oDataRequestComp.prototype.resetJsonModel(this.local_form_jsonModel,this.payloadData_keys);
+
+                    });
+                     this.byId("cancel_btn").attachPress({},(oEvent)=>{
+                        oDialog.close();
 
                     })
                 })
@@ -121,6 +154,7 @@ sap.ui.define([
                 // if state end
             }
             this.add_category_frag.then((oDialog) => {
+                    oDataRequestComp.prototype.resetJsonModel(this.local_form_jsonModel,this.payloadData_keys);
                     oDialog.open();
                 })
             
@@ -204,146 +238,124 @@ sap.ui.define([
                 }
             });
         },
-        _resetDeleteFunc:function(){
-                    const cntr =this.byId("btn_del_category");
-                    this.table?.setMode('None');
-                    cntr.setType(sap.m.ButtonType.Default);
-                    cntr.setTooltip("In-active state");
-                    this.main_page.setShowFooter(false);
-                    this.byId("deleteItems_category").setEnabled(false);
-                    this.table.detachSelectionChange(this.listSelectionChange,this);
-                    delete this._listItem;
-        },
+        // _resetDeleteFunc:function(){
+        //             const cntr =this.byId("btn_del_category");
+        //             this.table?.setMode('None');
+        //             cntr.setType(sap.m.ButtonType.Default);
+        //             cntr.setTooltip("In-active state");
+        //             this.main_page.setShowFooter(false);
+        //             this.byId("deleteItems_category").setEnabled(false);
+        //             this.table.detachSelectionChange(this.listSelectionChange,this);
+        //             delete this._listItem;
+        // },
         del_category: function(oEvent){
-            // open dialog when delete button pressed.
+            const delete_module_obj =this.delete_module_obj;
             const cntr =oEvent.getSource();
-            const listModeOptions =sap.m.ListMode
-            const listMode =this.table?.getMode();
-            this.byId('selectall_category')?.setText('select all');
-            switch (listMode) {
-                case listModeOptions.MultiSelect:
-                    this.table?.setMode(listModeOptions.None);
-                    cntr.setType(sap.m.ButtonType.Default);
-                    cntr.setTooltip("In-active state");
-                    this.main_page.setShowFooter(false);
-                    this.byId("deleteItems_category").setEnabled(false);
-                    this.table.detachSelectionChange(this.listSelectionChange,this);
-                    delete this._listItem;
-                    break;
-                case listModeOptions.None:
-                    this.table?.setMode(listModeOptions.MultiSelect);
-                    cntr.setType(sap.m.ButtonType.Emphasized);
-                    cntr.setTooltip("Active state");
-                    this.main_page.setShowFooter(true);
-                    this.byId("deleteItems_category").setEnabled(false);
-                    this.table.attachSelectionChange({},this.listSelectionChange,this);
-                    this._listItem=[];
-                    // show message strip on the bottom of the screen.
-                    break;
-                default:
-                    this.table?.setMode(listModeOptions.None);
-                    delete this._listItem;
-                    break;
-            }
+            delete_module_obj.setTrashbtnState(this,cntr);
         },
         listSelectionChange:function(oEvent){
-            let cntr =oEvent.getParameter('listItem');
-            let idx;
-            if(oEvent.getParameter('selected')){
-                this._listItem.push(cntr);
-                this.byId("deleteItems_category").setEnabled(true);
-            }else{
-                idx =this._listItem.findIndex((oItem)=>oItem==cntr);
-                this._listItem.splice(idx,1);
-                this.byId('selectall_category')?.setText('select all');
-                // enable/disable button
-                if(!this._listItem.length){
-                    this.byId("deleteItems_category").setEnabled(false);
-                }
-            }
+            this.delete_module_obj._listSelectionChange(oEvent);
+            // let cntr =oEvent.getParameter('listItem');
+            // let idx;
+            // if(oEvent.getParameter('selected')){
+            //     this._listItem.push(cntr);
+            //     this.byId("deleteItems_category").setEnabled(true);
+            // }else{
+            //     idx =this._listItem.findIndex((oItem)=>oItem==cntr);
+            //     this._listItem.splice(idx,1);
+            //     this.byId('selectall_category')?.setText('select all');
+            //     // enable/disable button
+            //     if(!this._listItem.length){
+            //         this.byId("deleteItems_category").setEnabled(false);
+            //     }
+            // }
 
-            // debugger;
-            // this._listItem =oEvent.getParameter('listItems');
-            if(oEvent.getParameter('selectAll')){
-                this._listItem =['all'];
-                this.byId('selectall_category')?.setText("de-select all");
-            }
+            // // debugger;
+            // // this._listItem =oEvent.getParameter('listItems');
+            // if(oEvent.getParameter('selectAll')){
+            //     this._listItem =['all'];
+            //     this.byId('selectall_category')?.setText("de-select all");
+            // }
         },
         _footerCombinedButtons:function(oEvent){
-            // debugger;
-            let _cancel =function(){
+            // // debugger;
+            // let _cancel =function(){
 
-                    let cntr =this.byId('btn_del_category');
-                    this.table?.setMode(sap.m.ListMode.None);
-                    cntr.setType(sap.m.ButtonType.Default);
-                    cntr.setTooltip("In-active state");
-                    this.main_page.setShowFooter(false);
-                    this.byId("deleteItems_category").setEnabled(false);
-                    this.byId('selectall_category')?.setText(null);
-                    delete this._listItem;
-                // enable delete button logic
-            };
+            //         let cntr =this.byId('btn_del_category');
+            //         this.table?.setMode(sap.m.ListMode.None);
+            //         cntr.setType(sap.m.ButtonType.Default);
+            //         cntr.setTooltip("In-active state");
+            //         this.main_page.setShowFooter(false);
+            //         this.byId("deleteItems_category").setEnabled(false);
+            //         this.byId('selectall_category')?.setText(null);
+            //         delete this._listItem;
+            //     // enable delete button logic
+            // };
 
-            let _delete =function(){
-                try {
-                let groupIdName ='categoryGroup';
-                let request_promise_list =oDataRequestComp.prototype.applyDelete(this,this._listItem,groupIdName);
-                // debugger;
-                if(request_promise_list===430){
-                    MessageToast.show("NO ITEM TO DELETE");
-                    return 1;
-                }
-                this.odataModel.submitBatch(groupIdName).then((data)=>{
-                    this.odataModel.refresh();
-                    MessageToast.show("DELETE OPERATION SUCCESSFULL");
-                });
-                // Promise.all(request_promise_list).then((values) => {
-                //             console.log(values); // [3, 42, "foo"]
-                //             }).catch((error) => {
-                //             console.error(error); // If any promise rejects, this will run
-                //             })
+            // let _delete =function(){
+            //     try {
+            //     let groupIdName ='categoryGroup';
+            //     let success_flag_249 =this.delete_module_obj.
+            //     if()
+            //     this.odataModel.submitBatch(groupIdName).then((data)=>{
+            //         this.odataModel.refresh();
+            //         MessageToast.show("DELETE OPERATION SUCCESSFULL");
+            //     });
+            //     // Promise.all(request_promise_list).then((values) => {
+            //     //             console.log(values); // [3, 42, "foo"]
+            //     //             }).catch((error) => {
+            //     //             console.error(error); // If any promise rejects, this will run
+            //     //             })
 
-                } catch (error) {
-                    console.log(error);
-                    return 0;
-                }
-                finally{
-                    // this._listItem =[];
-                    this._resetDeleteFunc();
+            //     } catch (error) {
+            //         console.log(error);
+            //         return 0;
+            //     }
+            //     finally{
+            //         // this._listItem =[];
+            //         this._resetDeleteFunc();
 
-                }
-            };
+            //     }
+            // };
 
-            let _selectAll =function(){
-                if(buttonKind=='selectall'){
-                    this.table.selectAll(true);
-                    this._listItem =['all'];
-                }
-                else{
-                    this.table.removeSelections(true,true);
-                    this._listItem=[];
-                }
-                return 1;
-            };
+            // let _selectAll =function(){
+            //     if(buttonKind=='selectall'){
+            //         this.table.selectAll(true);
+            //         this._listItem =['all'];
+            //     }
+            //     else{
+            //         this.table.removeSelections(true,true);
+            //         this._listItem=[];
+            //     }
+            //     return 1;
+            // };
 
             let buttonKind =oEvent.getSource().getText();
             buttonKind =buttonKind.toLowerCase().replace(/[\t\s]+/,'');
+            const delete_module_obj =this.delete_module_obj;
+            let groupIdName ='categoryGroup';
 
             switch (buttonKind) {
                 case 'cancel':
-                    _cancel.call(this);
+                    delete_module_obj._cancel();
                     break;
                 case 'delete':
-                    _delete.call(this);
+                    let success_flag_249 =delete_module_obj._delete(this,groupIdName);
+                    if(success_flag_249==249){
+                        this.odataModel.submitBatch(groupIdName).then(()=>{
+                        this.odataModel.refresh();
+                        MessageToast.show("DELETE OPERATION SUCCESSFULL");
+                    });
+                    }
                     break;
                 case 'selectall':
-                    _selectAll.call(this);
+                    delete_module_obj._selectAll(buttonKind);
                     break;
                 case 'de-selectall':
-                    _selectAll.call(this);
+                    delete_module_obj._selectAll(buttonKind);
                     break;
                 default:
-                    _cancel.call(this);
+                    delete_module_obj._cancel();
                     break;
             }
         },
@@ -366,7 +378,7 @@ sap.ui.define([
             })
         },
         edit_button_press: function(oEvent){
-            const endpoint ='/Categories/';
+            // const endpoint ='/Categories';
             const oContextItem = this.local_form_jsonModel;
             const oContextData ={
                 'ID':oContextItem.getProperty('/ID'),
@@ -379,37 +391,64 @@ sap.ui.define([
             const form_cntr_content =this.byId("dialog_edit_category2").getContent();
             const form_cntr_content_validation =formValidation.prototype.static_method("None",form_cntr_content,3,['sap.m.Input']);
             if(form_cntr_content_validation===true){
-            const req =new XMLHttpRequest();
-            req.open('PUT','https://port8080-workspaces-ws-ycocl.us10.trial.applicationstudio.cloud.sap/odata/v4/masterdata/'+'Categories');
-            // req.setRequestHeader('Conter')
-            req.setRequestHeader('Content-Type','application/json;charset=UTF-8;IEEE754Compatible=true');
-            req.setRequestHeader('Accept','application/json;odata.metadata=minimal;IEEE754Compatible=true');
-            req.send(JSON.stringify(oContextData));
-            req.ontimeout =(oEvent)=>{
-                MessageToast.show("PUT Request Timeout");
-                this.edit_category_frag_2.fireClose();
-            };
-            req.onreadystatechange = (oEvent) => {
-            // In local files, status is 0 upon success in Mozilla Firefox
-            if (req.readyState === XMLHttpRequest.DONE) {
-                const status = req.status;
-                if (status === 200) {
-                MessageToast.show("successfully updated ");
-                this.odataModel.refresh();
-                // this.edit_category_frag_2.fireClose();
-                } else {
-                    MessageToast.show("failed updation ");
-                }
-                this.edit_category_frag_2.close();
-            }
-            };   
+                this.edit_module_obj._makeedit_request('/Categories',oContextData,this.edit_response_state_change,this);
+            // const req =new XMLHttpRequest();
+            // req.open('PUT','https://port8080-workspaces-ws-ycocl.us10.trial.applicationstudio.cloud.sap/odata/v4/masterdata/'+'Categories');
+            // // req.setRequestHeader('Conter')
+            // req.setRequestHeader('Content-Type','application/json;charset=UTF-8;IEEE754Compatible=true');
+            // req.setRequestHeader('Accept','application/json;odata.metadata=minimal;IEEE754Compatible=true');
+            // req.send(JSON.stringify(oContextData));
+            // req.ontimeout =(oEvent)=>{
+            //     MessageToast.show("PUT Request Timeout");
+            //     this.edit_category_frag_2.fireClose();
+            // };
+            // req.onreadystatechange = (oEvent) => {
+            // // In local files, status is 0 upon success in Mozilla Firefox
+            // if (req.readyState === XMLHttpRequest.DONE) {
+            //     const status = req.status;
+            //     if (status === 200) {
+            //     MessageToast.show("successfully updated ");
+            //     this.odataModel.refresh();
+            //     // this.edit_category_frag_2.fireClose();
+            //     } else {
+            //         MessageToast.show("failed updation ");
+            //     }
+            //     this.edit_category_frag_2.close();
+            // }
+            // };   
         }               
         } catch (error) {
                 MessageToast.show(error.message.replace(/.*:/,'').trim());
                 return 0;
             }
+        finally{
+            this.edit_category_frag_2.close();
+        }
             // reset local_form_jsonModel  json model.
             // oDataRequestComp.prototype.resetJsonModel(this.local_form_jsonModel,this.payloadData_keys);
+        },
+        edit_response_state_change: function(response_code){
+            /**
+             * observer pattern used.
+             */
+            switch (response_code) {
+                    case 200:
+                        MessageToast.show("successfully updated ");
+                        this.odataModel.refresh();
+                        // this.edit_category_frag_2.fireClose();
+                        break;
+                    case 400:
+                        // request failed
+                        MessageToast.show("failed updation ");
+                    case 500:
+                        // time out happens
+                        MessageToast.show("PUT Request Timeout");
+                    default:
+                        MessageToast.show("glitchy event happens");
+                        // this.edit_category_frag_2.fireClose();
+                        break;
+                }
+                return 1;
         },
         edit_category_event: function(oEvent){
             const oContextItem =oEvent.getParameter('selectedItem').getBindingContext('MD');
@@ -421,8 +460,14 @@ sap.ui.define([
             };
             this.local_form_jsonModel.setData(oContextData);
             if(!this.edit_category_frag_2){
+              this.edit_category_frag_2 =this._createFragment('input fields');
+            }
+            this.edit_category_frag_2.open();   
+
+        },
+        _createFragment: function(fragmentFor){
                 const parentId =this.getView().getId();
-                this.edit_category_frag_2 =new sap.m.Dialog(parentId+'--dialog_edit_category',{
+                const edit_category_frag_2 =new sap.m.Dialog(parentId+'--dialog_edit_category',{
                     afterClose:function(oEvent){
                         oDataRequestComp.prototype.resetJsonModel(this.local_form_jsonModel,this.payloadData_keys);
 
@@ -501,12 +546,23 @@ sap.ui.define([
                         }).addStyleClass('sapUiResponsivePadding--content')
                     ]
                 });
-                // debugger;
-                this.getView().addDependent(this.edit_category_frag_2);
-            }
-            this.edit_category_frag_2.open();   
-
-        }   
+                this.getView().addDependent(edit_category_frag_2);
+                return edit_category_frag_2;
+        },   
+        search_category_event:function(oEvent){
+            const params =[];
+            const filterEnum =sap.ui.model.FilterOperator;
+            params.push({
+                            "key":"CategoryName",
+                            "expression":filterEnum.Contains
+            });
+            params.push({
+                            "key":"Description",
+                            "expression":filterEnum.Contains
+            });
+            // return 1 if filter applied successfully...
+            search_module.searchParse(oEvent,params);
+        },
         
     });
 })
